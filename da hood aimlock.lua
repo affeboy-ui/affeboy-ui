@@ -52,18 +52,18 @@ local function FindClosestPlayerHead()
     return nil, nil
 end
 
--- Function to add a blue highlight to the player
-local function AddBlueHighlight(player)
+-- Function to add a red highlight to the player
+local function AddRedHighlight(player)
     if player and player.Character then
         -- Remove any existing highlight
         if highlight then
             highlight:Destroy()
         end
 
-        -- Create a blue highlight for the player
+        -- Create a red highlight for the player
         highlight = Instance.new("Highlight")
         highlight.Parent = player.Character
-        highlight.FillColor = Color3.fromRGB(0, 0, 255) -- Blue color
+        highlight.FillColor = Color3.fromRGB(255, 0, 0) -- Red color
         highlight.FillTransparency = 0.5 -- Optional: set transparency
     end
 end
@@ -81,8 +81,8 @@ local function LockCursorToHead()
     targetHead, targetPlayer = FindClosestPlayerHead()
 
     if targetHead then
-        -- Add blue highlight to the locked player
-        AddBlueHighlight(targetPlayer)
+        -- Add red highlight to the locked player
+        AddRedHighlight(targetPlayer)
 
         -- Hide the mouse when locked
         UserInputService.MouseIconEnabled = false

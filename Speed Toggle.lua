@@ -1,41 +1,98 @@
--- LocalScript (Place in StarterCharacterScripts)
+--[[ 
+Controls:
+Reinject the script to toggle the Cframe Speed script on or off.
+Press "V" to toggle Cframe Speed when the script is loaded.
 
--- Toggle speed boost on or off with each execution
-_G.speedBoostEnabled = not _G.speedBoostEnabled
+First execution will load the speed toggle.
+Second execution will unload the speed toggle.
+]]
 
--- Notify the user of the current state
-if _G.speedBoostEnabled then
-    game.StarterGui:SetCore("SendNotification", {Title="Cframe Speed On"; Text="Affeboy Universal Cframe Speed"; Duration=5;})
-else
-    game.StarterGui:SetCore("SendNotification", {Title="Cframe Speed Off"; Text="Affeboy Universal Cframe Speed"; Duration=5;})
+-- Ensure proper initialization and unloading
+if _G.speedBoostInitialized == nil then
+    _G.speedBoostInitialized = false
 end
 
--- Initialize only once
-if _G.speedBoostScriptInitialized == nil then
-    _G.speedBoostScriptInitialized = true
+-- If the script is already loaded, we unload it
+if _G.speedBoostInitialized then
+    -- Disable the speed boost and clean up resources
+    _G.speedBoostEnabled = false
+    _G.speedBoostInitialized = false
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Cframe Speed Unloaded";
+        Text = "Cframe Speed script is now inactive.";
+        Duration = 5;
+    })
 
+    -- Disconnect the hotkey listener to stop the toggle functionality
+    if _G.toggleListener then
+        _G.toggleListener:Disconnect()
+        _G.toggleListener = nil
+    end
+
+    -- Stop RenderStepped connection
+    if _G.renderSteppedConnection then
+        _G.renderSteppedConnection:Disconnect()
+        _G.renderSteppedConnection = nil
+    end
+else
+    -- Otherwise, load the speed boost functionality
+    _G.speedBoostEnabled = true
+    _G.speedBoostInitialized = true
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Cframe Speed Loaded";
+        Text = "Cframe Speed script is now active! Press 'V' to toggle.";
+        Duration = 5;
+    })
+
+    -- Variables
     local player = game.Players.LocalPlayer
     local runService = game:GetService("RunService")
     local character = player.Character or player.CharacterAdded:Wait()
     local humanoid = character:WaitForChild("Humanoid")
     local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+    local UserInputService = game:GetService("UserInputService")
+    local targetSpeed = 80 -- Target speed equivalent to WalkSpeed = 16 * 5
 
-    -- Set speed multiplier to 5
-    local speedMultiplier = 5 -- Adjusted multiplier to 5
+    -- Speed boost toggle (on "V" key press)
+    _G.speedBoostActive = false
 
-    -- Smooth Speed Adjustment Loop
-    runService.RenderStepped:Connect(function(deltaTime)
-        if _G.speedBoostEnabled then
-            local moveDirection = humanoid.MoveDirection
-            if moveDirection.Magnitude > 0 then
-                -- Apply the speed multiplier to the HumanoidRootPart's position directly
-                humanoidRootPart.CFrame = humanoidRootPart.CFrame + moveDirection * speedMultiplier * deltaTime * 10
+    -- Hotkey listener (V key press)
+    _G.toggleListener = UserInputService.InputBegan:Connect(function(input, gameProcessed)
+        if gameProcessed then return end
+
+        if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.V then
+            -- Toggle speed boost if the script is enabled
+            if _G.speedBoostEnabled then
+                _G.speedBoostActive = not _G.speedBoostActive
+
+                if _G.speedBoostActive then
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Cframe Speed On";
+                        Text = "Cframe Speed is now active!";
+                        Duration = 5;
+                    })
+
+                    -- Activate speed boost
+                    _G.renderSteppedConnection = runService.RenderStepped:Connect(function(deltaTime)
+                        if _G.speedBoostActive and humanoidRootPart and humanoid then
+                            local moveDirection = humanoid.MoveDirection
+                            humanoidRootPart.CFrame = humanoidRootPart.CFrame + (moveDirection * targetSpeed * deltaTime)
+                        end
+                    end)
+                else
+                    game.StarterGui:SetCore("SendNotification", {
+                        Title = "Cframe Speed Off";
+                        Text = "Cframe Speed is now inactive.";
+                        Duration = 5;
+                    })
+
+                    -- Stop speed boost
+                    if _G.renderSteppedConnection then
+                        _G.renderSteppedConnection:Disconnect()
+                        _G.renderSteppedConnection = nil
+                    end
+                end
             end
         end
     end)
-end
-
--- When toggling off, no speed manipulation will occur, and the character returns to normal speed
-if not _G.speedBoostEnabled then
-    -- No need to restore WalkSpeed, as we never modified it
 end

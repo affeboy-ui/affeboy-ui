@@ -1,12 +1,27 @@
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local Camera = workspace.CurrentCamera
-local Workspace = game:GetService("Workspace")
-
 local LocalPlayer = Players.LocalPlayer
 local healthBars = {}  -- Store health bars for players
-
 local MAX_DISTANCE = 300  -- Maximum distance for health bar visibility (in studs)
+
+-- Global flag to toggle health ESP
+_G.healthESP = not _G.healthESP
+
+-- Function to notify the user
+local function Notify(title, text)
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = title,
+        Text = text,
+        Duration = 5
+    })
+end
+
+-- Notify when the script is ready
+if _G.healthESP then
+    Notify("Health ESP Enabled", "🐵Health ESP is now active🐒")
+else
+    Notify("Health ESP Disabled", "🐵Health ESP is now inactive🐒")
+end
 
 -- Function to create a health bar for a player
 local function CreateHealthBar(player)
@@ -58,6 +73,16 @@ local function CreateHealthBar(player)
     end)
 end
 
+-- Function to remove health bars
+local function RemoveHealthBars()
+    for _, billboardGui in pairs(healthBars) do
+        if billboardGui then
+            billboardGui:Destroy()  -- Destroy the entire BillboardGui
+        end
+    end
+    healthBars = {}  -- Clear the healthBars table
+end
+
 -- Function to check if the player is within range for the health bar to appear
 local function IsWithinRange(player)
     local character = player.Character
@@ -71,13 +96,14 @@ end
 -- Handle player join and leave to ensure health bars are updated
 Players.PlayerAdded:Connect(function(player)
     player.CharacterAdded:Connect(function(character)
-        if IsWithinRange(player) then
+        if _G.healthESP and IsWithinRange(player) then
             CreateHealthBar(player)
         end
     end)
 end)
 
 Players.PlayerRemoving:Connect(function(player)
+    -- Remove health bar when player leaves
     if healthBars[player] then
         healthBars[player]:Destroy()  -- Destroy the entire BillboardGui
         healthBars[player] = nil
@@ -86,22 +112,28 @@ end)
 
 -- Periodically update health bars every 1 second
 while true do
-    -- Update health bars for players within range
-    for _, player in pairs(Players:GetPlayers()) do
-        if player.Character then
-            if IsWithinRange(player) then
-                -- Create health bar if it doesn't exist
-                if not healthBars[player] then
-                    CreateHealthBar(player)
-                end
-            else
-                -- Remove health bar if player is out of range
-                if healthBars[player] then
-                    healthBars[player]:Destroy()  -- Destroy the BillboardGui
-                    healthBars[player] = nil
+    -- If health ESP is enabled
+    if _G.healthESP then
+        -- Update health bars for players within range
+        for _, player in pairs(Players:GetPlayers()) do
+            if player.Character then
+                if IsWithinRange(player) then
+                    -- Create health bar if it doesn't exist
+                    if not healthBars[player] then
+                        CreateHealthBar(player)
+                    end
+                else
+                    -- Remove health bar if player is out of range
+                    if healthBars[player] then
+                        healthBars[player]:Destroy()  -- Destroy the BillboardGui
+                        healthBars[player] = nil
+                    end
                 end
             end
         end
+    else
+        -- If health ESP is disabled, remove all health bars
+        RemoveHealthBars()
     end
     wait(1)
 end

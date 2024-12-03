@@ -14,10 +14,10 @@ _G.aimlock = not _G.aimlock
 
 if _G.aimlock then
     -- Notify readiness
-    game.StarterGui:SetCore("SendNotification", {Title="Affeboy Universal"; Text="Aimlock is now ON"; Duration=5;})
+    game.StarterGui:SetCore("SendNotification", {Title="Aimlock Loaded"; Text="🐵Affeboy Universal🐒"; Duration=5;})
 else
     -- Notify aimlock is turned off
-    game.StarterGui:SetCore("SendNotification", {Title="Affeboy Universal"; Text="Aimlock is now OFF"; Duration=5;})
+    game.StarterGui:SetCore("SendNotification", {Title="Aimlock Unloaded"; Text="🐵Affeboy Universal🐒"; Duration=5;})
 end
 
 local Players = game:GetService("Players")

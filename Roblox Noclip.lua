@@ -22,8 +22,8 @@ local function toggleNoClip(state)
 
         -- Notify no-clip enabled
         game.StarterGui:SetCore("SendNotification", {
-            Title = "No-Clip Activated";
-            Text = "You can now walk through walls!";
+            Title = "NoClip On";
+            Text = "Affeboy Universal!";
             Duration = 5;
         })
     else

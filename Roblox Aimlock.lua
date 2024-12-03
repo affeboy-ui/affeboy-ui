@@ -14,10 +14,10 @@ _G.aimlock = not _G.aimlock
 
 if _G.aimlock then
     -- Notify readiness
-    game.StarterGui:SetCore("SendNotification", {Title="Aimlock Loaded"; Text="🐵Affeboy Universal🐒"; Duration=5;})
+    game.StarterGui:SetCore("SendNotification", {Title="Aimlock Loaded"; Text="🐵Affeboy Universal🐒"; Duration=5;} )
 else
     -- Notify aimlock is turned off
-    game.StarterGui:SetCore("SendNotification", {Title="Aimlock Unloaded"; Text="🐵Affeboy Universal🐒"; Duration=5;})
+    game.StarterGui:SetCore("SendNotification", {Title="Aimlock Unloaded"; Text="🐵Affeboy Universal🐒"; Duration=5;} )
 end
 
 local Players = game:GetService("Players")
@@ -68,24 +68,24 @@ local function FindClosestPlayerHead()
 
     for _, player in pairs(Players:GetPlayers()) do
         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
-            -- Only consider players with more than 15% health
-            if not IsPlayerHealthLow(player) then
-                local character = player.Character
-                local humanoid = character:FindFirstChild("Humanoid")
-                
-                if humanoid then
-                    local head = character.Head
-                    local headPosition = head.Position
-                    local screenPoint = Camera:WorldToScreenPoint(headPosition)
-                    local distance = (mousePosition - Vector2.new(screenPoint.X, screenPoint.Y)).Magnitude
-                    local playerDistance = (Camera.CFrame.Position - headPosition).Magnitude
+            local character = player.Character
+            local humanoid = character:FindFirstChild("Humanoid")
 
-                    -- Perform a raycast to check visibility or distance
-                    local ray = Ray.new(Camera.CFrame.Position, headPosition - Camera.CFrame.Position)
-                    local hitPart, hitPosition = Workspace:FindPartOnRay(ray, LocalPlayer.Character)
+            if humanoid and humanoid.Health > 0 then
+                local head = character.Head
+                local headPosition = head.Position
+                local screenPoint = Camera:WorldToScreenPoint(headPosition)
+                local distance = (mousePosition - Vector2.new(screenPoint.X, screenPoint.Y)).Magnitude
+                local playerDistance = (Camera.CFrame.Position - headPosition).Magnitude
 
-                    -- Allow locking through walls for players within 100 studs
-                    if playerDistance <= 50 or (not hitPart or hitPart.Parent == character) then
+                -- Perform a raycast to check visibility or distance
+                local ray = Ray.new(Camera.CFrame.Position, headPosition - Camera.CFrame.Position)
+                local hitPart, hitPosition = Workspace:FindPartOnRay(ray, LocalPlayer.Character)
+
+                -- Allow locking through walls for players within 100 studs
+                if playerDistance <= 100 or (not hitPart or hitPart.Parent == character) then
+                    -- Only consider players with more than 15% health for locking
+                    if not IsPlayerHealthLow(player) then
                         if distance < closestDistance then
                             closestDistance = distance
                             closestPlayer = player

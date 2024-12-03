@@ -22,8 +22,8 @@ local function toggleNoClip(state)
 
         -- Notify no-clip enabled
         game.StarterGui:SetCore("SendNotification", {
-            Title = "NoClip On";
-            Text = "Affeboy Universal!";
+            Title = "NoClip Enabled";
+            Text = "🐵Affeboy Universal🐒";
             Duration = 5;
         })
     else
@@ -36,8 +36,8 @@ local function toggleNoClip(state)
 
         -- Notify no-clip disabled
         game.StarterGui:SetCore("SendNotification", {
-            Title = "No-Clip Deactivated";
-            Text = "Collision is back to normal.";
+            Title = "NoClip Disabled";
+            Text = "🐵Affeboy Universal🐒";
             Duration = 5;
         })
     end
@@ -61,8 +61,8 @@ if not _G.noClipLoaded then
 
     -- Notify no-clip loaded
     game.StarterGui:SetCore("SendNotification", {
-        Title = "No-Clip Script Loaded";
-        Text = "Press N to toggle no-clip!";
+        Title = "NoClip Loaded";
+        Text = "🐵Affeboy Universal🐒";
         Duration = 5;
     })
 
@@ -90,8 +90,8 @@ else
 
     -- Notify no-clip unloaded
     game.StarterGui:SetCore("SendNotification", {
-        Title = "No-Clip Script Unloaded";
-        Text = "No-clip hotkey disabled.";
+        Title = "NoClip Unloaded";
+        Text = "🐵Affeboy Universal🐒";
         Duration = 5;
     })
 end

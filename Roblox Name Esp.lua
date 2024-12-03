@@ -33,7 +33,7 @@ local function CreateNameTag(player)
     billboardGui.Size = UDim2.new(0, 100, 0, 30)  -- Adjust the size for the name tag
     billboardGui.AlwaysOnTop = true
     billboardGui.Adornee = head
-    billboardGui.StudsOffset = Vector3.new(0, 3, 0)  -- Move the name tag further up
+    billboardGui.StudsOffset = Vector3.new(0, 6, 0)  -- Move the name tag to the position previously used by health text (further down)
 
     local nameTag = Instance.new("TextLabel")
     nameTag.Parent = billboardGui

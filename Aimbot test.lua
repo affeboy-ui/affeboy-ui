@@ -1,3 +1,4 @@
+-- Aimlock script (Main script)
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -10,7 +11,8 @@ local targetHead = nil -- Stores the current target head
 local targetPlayer = nil -- Stores the player locked onto
 local highlight = nil -- Stores the highlight instance
 
-getgenv().AimlockEnabled = false -- Global variable to sync with UI toggle
+-- Aimlock hotkey toggle flag (global variable)
+_G.aimlockActive = false  -- Setting the global variable for aimlock active
 
 -- Function to find the closest player's head, excluding those with 15% or less health and checking for visibility
 local function FindClosestPlayerHead()
@@ -102,16 +104,18 @@ local function UnlockCursor()
     RemoveHighlight() -- Remove the highlight
 end
 
--- Handle key press (C) for locking the cursor
+-- Handle key press (C) for locking the cursor if aimlock is active
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
-    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.C and getgenv().AimlockEnabled then
-        cursorLocked = not cursorLocked -- Toggle locking on/off
+    if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.C then
+        if _G.aimlockActive then
+            cursorLocked = not cursorLocked -- Toggle locking on/off
 
-        if cursorLocked then
-            LockCursorToHead() -- Lock onto the nearest player
-        else
-            UnlockCursor() -- Unlock cursor when released
+            if cursorLocked then
+                LockCursorToHead() -- Lock onto the nearest player
+            else
+                UnlockCursor() -- Unlock cursor when released
+            end
         end
     end
 end)

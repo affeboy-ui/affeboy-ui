@@ -33,7 +33,7 @@ local targetPlayer = nil -- Stores the player locked onto
 local highlight = nil -- Stores the highlight instance
 
 -- Function to check if the player has 1% health or less
-local function IsPlayerHealthLow(player)
+local function IsPlayerHealthCritical(player)
     local character = player.Character
     if character then
         local humanoid = character:FindFirstChild("Humanoid")
@@ -45,7 +45,20 @@ local function IsPlayerHealthLow(player)
     return false
 end
 
--- Function to find the closest player's head, excluding those with 1% health or less
+-- Function to check if the player has 15% health or less
+local function IsPlayerHealthLow(player)
+    local character = player.Character
+    if character then
+        local humanoid = character:FindFirstChild("Humanoid")
+        if humanoid then
+            -- Check if the humanoid's health is 15% or less
+            return humanoid.Health / humanoid.MaxHealth <= 0.15
+        end
+    end
+    return false
+end
+
+-- Function to find the closest player's head, excluding those with 15% health or less
 local function FindClosestPlayerHead()
     local closestPlayer = nil
     local closestDistance = math.huge
@@ -55,7 +68,7 @@ local function FindClosestPlayerHead()
 
     for _, player in pairs(Players:GetPlayers()) do
         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
-            -- Check if the player has more than 1% health
+            -- Only consider players with more than 15% health
             if not IsPlayerHealthLow(player) then
                 local character = player.Character
                 local humanoid = character:FindFirstChild("Humanoid")
@@ -159,7 +172,7 @@ RunService.RenderStepped:Connect(function()
     if cursorLocked and _G.aimlock then
         if targetHead then
             -- Unlock if the target player has 1% health or less
-            if IsPlayerHealthLow(targetPlayer) then
+            if IsPlayerHealthCritical(targetPlayer) then
                 UnlockCursor()
             else
                 -- Keep the camera locked on the target player's head

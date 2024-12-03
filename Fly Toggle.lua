@@ -91,7 +91,7 @@ else
 
             -- Send notification when toggling fly mode
             game.StarterGui:SetCore("SendNotification", {
-                Title = "Fly Mode " .. (flags["rage_cframe_fly_enabled"] and "Enabled" or "Disabled");
+                Title = "Cframe Flight " .. (flags["rage_cframe_fly_enabled"] and "Enabled" or "Disabled");
                 Text = "🐵Affeboy Universal🐒";
                 Duration = 5;
             })

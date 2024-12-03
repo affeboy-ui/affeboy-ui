@@ -13,10 +13,10 @@ end
 _G.aimlock = not _G.aimlock
 
 if _G.aimlock then
-    -- Notifies readiness
+    -- Notify readiness
     game.StarterGui:SetCore("SendNotification", {Title="Affeboy Universal"; Text="Aimlock is now ON"; Duration=5;})
 else
-    -- Notifies if aimlock is turned off
+    -- Notify aimlock is turned off
     game.StarterGui:SetCore("SendNotification", {Title="Affeboy Universal"; Text="Aimlock is now OFF"; Duration=5;})
 end
 
@@ -32,7 +32,20 @@ local targetHead = nil -- Stores the current target head
 local targetPlayer = nil -- Stores the player locked onto
 local highlight = nil -- Stores the highlight instance
 
--- Function to find the closest player's head, excluding those with 15% or less health and checking for visibility
+-- Function to check if the player has 1% health or less
+local function IsPlayerHealthLow(player)
+    local character = player.Character
+    if character then
+        local humanoid = character:FindFirstChild("Humanoid")
+        if humanoid then
+            -- Check if the humanoid's health is 1% or less
+            return humanoid.Health / humanoid.MaxHealth <= 0.01
+        end
+    end
+    return false
+end
+
+-- Function to find the closest player's head, excluding those with 1% health or less
 local function FindClosestPlayerHead()
     local closestPlayer = nil
     local closestDistance = math.huge
@@ -42,25 +55,27 @@ local function FindClosestPlayerHead()
 
     for _, player in pairs(Players:GetPlayers()) do
         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
-            -- Check if the player has more than 15% health
-            local character = player.Character
-            local humanoid = character:FindFirstChild("Humanoid")
-            
-            if humanoid and humanoid.Health / humanoid.MaxHealth > 0.15 then
-                local head = character.Head
-                local headPosition = head.Position
-                local screenPoint = Camera:WorldToScreenPoint(headPosition)
-                local distance = (mousePosition - Vector2.new(screenPoint.X, screenPoint.Y)).Magnitude
+            -- Check if the player has more than 1% health
+            if not IsPlayerHealthLow(player) then
+                local character = player.Character
+                local humanoid = character:FindFirstChild("Humanoid")
+                
+                if humanoid then
+                    local head = character.Head
+                    local headPosition = head.Position
+                    local screenPoint = Camera:WorldToScreenPoint(headPosition)
+                    local distance = (mousePosition - Vector2.new(screenPoint.X, screenPoint.Y)).Magnitude
 
-                -- Perform a raycast to check if the head is visible (not behind a wall)
-                local ray = Ray.new(Camera.CFrame.Position, headPosition - Camera.CFrame.Position)
-                local hitPart, hitPosition = Workspace:FindPartOnRay(ray, LocalPlayer.Character)
+                    -- Perform a raycast to check if the head is visible (not behind a wall)
+                    local ray = Ray.new(Camera.CFrame.Position, headPosition - Camera.CFrame.Position)
+                    local hitPart, hitPosition = Workspace:FindPartOnRay(ray, LocalPlayer.Character)
 
-                -- If the ray hits anything other than the player's head, we ignore this player
-                if not hitPart or hitPart.Parent == character then
-                    if distance < closestDistance then
-                        closestDistance = distance
-                        closestPlayer = player
+                    -- If the ray hits anything other than the player's head, we ignore this player
+                    if not hitPart or hitPart.Parent == character then
+                        if distance < closestDistance then
+                            closestDistance = distance
+                            closestPlayer = player
+                        end
                     end
                 end
             end
@@ -74,7 +89,7 @@ local function FindClosestPlayerHead()
     return nil, nil
 end
 
--- Function to add arRed highlight to the player
+-- Function to add a red highlight to the player
 local function AddRedHighlight(player)
     if player and player.Character then
         -- Remove any existing highlight
@@ -143,8 +158,13 @@ end)
 RunService.RenderStepped:Connect(function()
     if cursorLocked and _G.aimlock then
         if targetHead then
-            -- Keep the camera locked on the target player's head and make sure cursor doesn't snap
-            Camera.CFrame = CFrame.new(Camera.CFrame.Position, targetHead.Position)
+            -- Unlock if the target player has 1% health or less
+            if IsPlayerHealthLow(targetPlayer) then
+                UnlockCursor()
+            else
+                -- Keep the camera locked on the target player's head
+                Camera.CFrame = CFrame.new(Camera.CFrame.Position, targetHead.Position)
+            end
         end
     end
 end)

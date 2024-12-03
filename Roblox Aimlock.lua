@@ -1,3 +1,25 @@
+--[[ Controls:
+Reinject the script to toggle the aimlock script on or off.
+Execute Lua "G.aimlock = true" to explicitly turn the aimlock script on
+Execute Lua "G.aimlock = false" to explicitly turn the aimlock script off
+]]
+
+-- Ensure aimlock state is toggled correctly on each execution
+if _G.aimlock == nil then
+    _G.aimlock = false  -- Default value if not previously set
+end
+
+-- If aimlock is already on, turn it off; if it's off, turn it on
+_G.aimlock = not _G.aimlock
+
+if _G.aimlock then
+    -- Notifies readiness
+    game.StarterGui:SetCore("SendNotification", {Title="Affeboy Universal"; Text="Aimlock is now ON"; Duration=5;})
+else
+    -- Notifies if aimlock is turned off
+    game.StarterGui:SetCore("SendNotification", {Title="Affeboy Universal"; Text="Aimlock is now OFF"; Duration=5;})
+end
+
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -52,18 +74,18 @@ local function FindClosestPlayerHead()
     return nil, nil
 end
 
--- Function to add a blue highlight to the player
-local function AddBlueHighlight(player)
+-- Function to add arRed highlight to the player
+local function AddRedHighlight(player)
     if player and player.Character then
         -- Remove any existing highlight
         if highlight then
             highlight:Destroy()
         end
 
-        -- Create a blue highlight for the player
+        -- Create a red highlight for the player
         highlight = Instance.new("Highlight")
         highlight.Parent = player.Character
-        highlight.FillColor = Color3.fromRGB(0, 0, 255) -- Blue color
+        highlight.FillColor = Color3.fromRGB(255, 0, 0) -- red color
         highlight.FillTransparency = 0.5 -- Optional: set transparency
     end
 end
@@ -81,8 +103,8 @@ local function LockCursorToHead()
     targetHead, targetPlayer = FindClosestPlayerHead()
 
     if targetHead then
-        -- Add blue highlight to the locked player
-        AddBlueHighlight(targetPlayer)
+        -- Add red highlight to the locked player
+        AddRedHighlight(targetPlayer)
 
         -- Hide the mouse when locked
         UserInputService.MouseIconEnabled = false
@@ -104,22 +126,32 @@ end
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
     if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.C then
-        cursorLocked = not cursorLocked -- Toggle locking on/off
+        -- Only allow locking/unlocking if aimlock is ON
+        if _G.aimlock then
+            cursorLocked = not cursorLocked -- Toggle locking on/off
 
-        if cursorLocked then
-            LockCursorToHead() -- Lock onto the nearest player
-        else
-            UnlockCursor() -- Unlock cursor when released
+            if cursorLocked then
+                LockCursorToHead() -- Lock onto the nearest player
+            else
+                UnlockCursor() -- Unlock cursor when released
+            end
         end
     end
 end)
 
 -- Update loop to follow the cursor's target player when locked
 RunService.RenderStepped:Connect(function()
-    if cursorLocked then
+    if cursorLocked and _G.aimlock then
         if targetHead then
-            -- Keep the camera locked on the target player's head
+            -- Keep the camera locked on the target player's head and make sure cursor doesn't snap
             Camera.CFrame = CFrame.new(Camera.CFrame.Position, targetHead.Position)
         end
     end
 end)
+
+-- Disable all actions related to aimlock when aimlock is OFF
+if not _G.aimlock then
+    -- Ensure cursor is unlocked
+    cursorLocked = false
+    UnlockCursor()  -- Remove the highlight and reset camera focus
+end

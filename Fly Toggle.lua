@@ -15,7 +15,7 @@ local utility = {
 local flags = {
     ["rage_cframe_fly_enabled"] = false, -- Initially off
     ["rage_cframe_fly_keybind"] = Enum.KeyCode.B, -- Toggle key set to B
-    ["rage_cframe_fly_amount"] = 110 -- Fly speed set to 110
+    ["rage_cframe_fly_amount"] = 100 -- Fly speed set to 100
 }
 
 -- Ensure proper initialization and unloading

@@ -58,7 +58,7 @@ local function IsPlayerHealthLow(player)
     return false
 end
 
--- Function to find the closest player's head, excluding those with 15% health or less
+-- Function to find the closest player's head, bypassing walls for targets within 100 studs
 local function FindClosestPlayerHead()
     local closestPlayer = nil
     local closestDistance = math.huge
@@ -78,13 +78,14 @@ local function FindClosestPlayerHead()
                     local headPosition = head.Position
                     local screenPoint = Camera:WorldToScreenPoint(headPosition)
                     local distance = (mousePosition - Vector2.new(screenPoint.X, screenPoint.Y)).Magnitude
+                    local playerDistance = (Camera.CFrame.Position - headPosition).Magnitude
 
-                    -- Perform a raycast to check if the head is visible (not behind a wall)
+                    -- Perform a raycast to check visibility or distance
                     local ray = Ray.new(Camera.CFrame.Position, headPosition - Camera.CFrame.Position)
                     local hitPart, hitPosition = Workspace:FindPartOnRay(ray, LocalPlayer.Character)
 
-                    -- If the ray hits anything other than the player's head, we ignore this player
-                    if not hitPart or hitPart.Parent == character then
+                    -- Allow locking through walls for players within 100 studs
+                    if playerDistance <= 50 or (not hitPart or hitPart.Parent == character) then
                         if distance < closestDistance then
                             closestDistance = distance
                             closestPlayer = player

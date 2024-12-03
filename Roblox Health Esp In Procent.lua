@@ -1,10 +1,10 @@
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
-local healthTexts = {}  -- Store health text labels for players
-local MAX_DISTANCE = 300  -- Maximum distance for health text visibility (in studs)
+local healthTexts = {} -- Store health text labels for players
+local MAX_DISTANCE = 300 -- Maximum distance for health text visibility (in studs)
 
--- Global flag to toggle health text ESP
+-- Toggle the health text ESP
 _G.healthTextESP = not _G.healthTextESP
 
 -- Function to notify the user
@@ -16,7 +16,7 @@ local function Notify(title, text)
     })
 end
 
--- Notify when the health text ESP is enabled
+-- Notify when the health text ESP is toggled
 if _G.healthTextESP then
     Notify("Health Text ESP Enabled", "🐵Affeboy Universal🐒")
 else
@@ -25,55 +25,62 @@ end
 
 -- Function to create a health text for a player (showing health %)
 local function CreateHealthText(player)
+    if healthTexts[player] then return end -- Avoid duplicates
+
     local character = player.Character or player.CharacterAdded:Wait()
     local head = character:WaitForChild("Head")
 
     local billboardGui = Instance.new("BillboardGui")
-    billboardGui.Parent = character
-    billboardGui.Size = UDim2.new(0, 100, 0, 30)  -- Adjust the size for health text
+    billboardGui.Size = UDim2.new(0, 100, 0, 30)
     billboardGui.AlwaysOnTop = true
     billboardGui.Adornee = head
-    billboardGui.StudsOffset = Vector3.new(0, 3, 0)  -- Move the health text to the position previously used by name tag
+    billboardGui.StudsOffset = Vector3.new(0, 3, 0)
 
     local healthText = Instance.new("TextLabel")
-    healthText.Parent = billboardGui
-    healthText.Size = UDim2.new(1, 0, 1, 0)  -- Full size of the BillboardGui
+    healthText.Size = UDim2.new(1, 0, 1, 0)
     healthText.BackgroundTransparency = 1
-    healthText.TextColor3 = Color3.new(1, 1, 1)  -- White text color
-    healthText.TextStrokeTransparency = 0.6  -- Adjust outline visibility
-    healthText.TextStrokeColor3 = Color3.new(0, 0, 0)  -- Black stroke for visibility
-    healthText.TextSize = 10  -- Smaller base text size
+    healthText.TextColor3 = Color3.new(1, 1, 1)
+    healthText.TextStrokeTransparency = 0.6
+    healthText.TextStrokeColor3 = Color3.new(0, 0, 0)
+    healthText.TextSize = 10
+    healthText.Parent = billboardGui
+    billboardGui.Parent = character
 
-    -- Update health text dynamically based on health
-    RunService.RenderStepped:Connect(function()
-        if character:FindFirstChild("Humanoid") then
-            local humanoid = character.Humanoid
-            local healthPercent = humanoid.Health / humanoid.MaxHealth * 100  -- Calculate health percentage
-            healthText.Text = string.format("%.0f%%", healthPercent)  -- Update the health text to show percentage
+    healthTexts[player] = billboardGui
 
-            -- Color the text based on the health percentage
-            if healthPercent > 50 then
-                healthText.TextColor3 = Color3.new(0, 1, 0)  -- Green for high health
-            elseif healthPercent > 20 then
-                healthText.TextColor3 = Color3.new(1, 1, 0)  -- Yellow for medium health
-            else
-                healthText.TextColor3 = Color3.new(1, 0, 0)  -- Red for low health
-            end
+    -- Dynamic update for health text
+    local connection
+    connection = RunService.RenderStepped:Connect(function()
+        if not character:FindFirstChild("Humanoid") or not billboardGui.Parent or not _G.healthTextESP then
+            connection:Disconnect() -- Stop updating if conditions aren't met
+            healthTexts[player] = nil
+            return
+        end
+
+        local humanoid = character.Humanoid
+        local healthPercent = humanoid.Health / humanoid.MaxHealth * 100
+        healthText.Text = string.format("%.0f%%", healthPercent)
+
+        if healthPercent > 50 then
+            healthText.TextColor3 = Color3.new(0, 1, 0)
+        elseif healthPercent > 20 then
+            healthText.TextColor3 = Color3.new(1, 1, 0)
+        else
+            healthText.TextColor3 = Color3.new(1, 0, 0)
         end
     end)
 end
 
 -- Function to remove health texts
-local function RemoveHealthTexts()
-    for _, healthText in pairs(healthTexts) do
-        if healthText then
-            healthText.Parent:Destroy()  -- Destroy the entire BillboardGui containing the text
-        end
+local function RemoveHealthText(player)
+    local healthText = healthTexts[player]
+    if healthText then
+        healthText:Destroy()
+        healthTexts[player] = nil
     end
-    healthTexts = {}  -- Clear the healthTexts table
 end
 
--- Function to check if the player is within range for the health text to appear
+-- Function to check if the player is within range
 local function IsWithinRange(player)
     local character = player.Character
     if character and character:FindFirstChild("HumanoidRootPart") then
@@ -83,9 +90,31 @@ local function IsWithinRange(player)
     return false
 end
 
--- Handle player join and leave to ensure health texts are updated
+-- Update health texts periodically
+RunService.Heartbeat:Connect(function()
+    if _G.healthTextESP then
+        for _, player in pairs(Players:GetPlayers()) do
+            if player.Character then
+                if IsWithinRange(player) then
+                    if not healthTexts[player] then
+                        CreateHealthText(player)
+                    end
+                else
+                    RemoveHealthText(player)
+                end
+            end
+        end
+    else
+        -- Remove all health texts if disabled
+        for player, _ in pairs(healthTexts) do
+            RemoveHealthText(player)
+        end
+    end
+end)
+
+-- Handle players joining and leaving
 Players.PlayerAdded:Connect(function(player)
-    player.CharacterAdded:Connect(function(character)
+    player.CharacterAdded:Connect(function()
         if _G.healthTextESP and IsWithinRange(player) then
             CreateHealthText(player)
         end
@@ -93,37 +122,5 @@ Players.PlayerAdded:Connect(function(player)
 end)
 
 Players.PlayerRemoving:Connect(function(player)
-    -- Remove health text when player leaves
-    if healthTexts[player] then
-        healthTexts[player].Parent:Destroy()  -- Destroy the entire BillboardGui
-        healthTexts[player] = nil
-    end
+    RemoveHealthText(player)
 end)
-
--- Periodically update health texts every 1 second
-while true do
-    -- If health text ESP is enabled
-    if _G.healthTextESP then
-        -- Update health texts for players within range
-        for _, player in pairs(Players:GetPlayers()) do
-            if player.Character then
-                if IsWithinRange(player) then
-                    -- Create health text if it doesn't exist
-                    if not healthTexts[player] then
-                        CreateHealthText(player)
-                    end
-                else
-                    -- Remove health text if player is out of range
-                    if healthTexts[player] then
-                        healthTexts[player].Parent:Destroy()  -- Destroy the BillboardGui
-                        healthTexts[player] = nil
-                    end
-                end
-            end
-        end
-    else
-        -- If health text ESP is disabled, remove all health texts
-        RemoveHealthTexts()
-    end
-    wait(1)
-end

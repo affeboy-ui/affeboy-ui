@@ -44,10 +44,58 @@ Rayfield:Notify({
    Image = "code-xml",
 })
 
+local TargetPlayerName = "" -- Variable to store the target player's username
+
+local Input = Aimlock:CreateInput({
+   Name = "Target Player",
+   CurrentValue = "",
+   PlaceholderText = "Enter Player Username (NOT Display Name)",
+   RemoveTextAfterFocusLost = false,
+   Flag = "TargetPlayer",
+   Callback = function(Text)
+      TargetPlayerName = Text -- Save the inputted name to the variable
+
+      -- Notify the user about the target
+      if TargetPlayerName == "" then
+         Rayfield:Notify({
+            Title = "Targeting Disabled",
+            Content = "No specific target set. Aimlock will work on all players.",
+            Duration = 5,
+            Image = "info-circle",
+         })
+      else
+         Rayfield:Notify({
+            Title = "Target Set",
+            Content = "Targeting player: " .. TargetPlayerName,
+            Duration = 5,
+            Image = "user",
+         })
+      end
+   end,
+})
+
 local Button = Aimlock:CreateButton({
    Name = "Aimlock Toggle                                 Keybind C",
    Callback = function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/refs/heads/main/Roblox%20Aimlock.lua"))()
+      -- Load the Aimlock script
+      local aimlockScript = loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/main/Roblox%20Aimlock.lua"))()
+
+      -- Set custom targeting logic
+      aimlockScript:SetTargetingLogic(function(currentTarget)
+         if TargetPlayerName == "" then
+            -- No target name is set, Aimlock works on all players
+            return true
+         elseif currentTarget.Name == TargetPlayerName then
+            -- Target player name matches the current player
+            return true
+         else
+            -- Target player name does not match, skip this target
+            return false
+         end
+      end)
+
+      -- Activate Aimlock
+      aimlockScript:Activate()
    end,
 })
 

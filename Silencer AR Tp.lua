@@ -25,7 +25,7 @@ end
 local function teleportToTarget()
     if humanoidRootPart then
         -- Show the "Teleporting" notification before teleporting
-        showNotification(":monkey_face:Affeboy Universal:monkey:")
+        showNotification("🐵Affeboy Universal🐒")
         
         -- Teleport the player
         character:SetPrimaryPartCFrame(CFrame.new(targetPosition))

@@ -11,13 +11,12 @@ if _G.ConsoleLogs == nil then
     _G.ConsoleLogs = false -- Set to true if you want console logs (mainly for debugging)
 end
 
-
-
 if not game:IsLoaded() then
     repeat
         task.wait()
     until game:IsLoaded()
 end
+
 if not _G.Settings then
     _G.Settings = {
         Players = {
@@ -56,7 +55,7 @@ if not _G.Settings then
             Destroy = false
         },
         Other = {
-            ["FPS Cap"] = 240, -- Set this true to uncap FPS
+            ["FPS Cap"] = true, -- Set this true to uncap FPS
             ["No Camera Effects"] = true,
             ["No Clothes"] = true,
             ["Low Water Graphics"] = true,
@@ -69,8 +68,10 @@ if not _G.Settings then
         }
     }
 end
+
 local Players, Lighting, StarterGui, MaterialService = game:GetService("Players"), game:GetService("Lighting"), game:GetService("StarterGui"), game:GetService("MaterialService")
 local ME, CanBeEnabled = Players.LocalPlayer, {"ParticleEmitter", "Trail", "Smoke", "Fire", "Sparkles"}
+
 local function PartOfCharacter(Instance)
     for i, v in pairs(Players:GetPlayers()) do
         if v ~= ME and v.Character and Instance:IsDescendantOf(v.Character) then
@@ -79,6 +80,7 @@ local function PartOfCharacter(Instance)
     end
     return false
 end
+
 local function DescendantOfIgnore(Instance)
     for i, v in pairs(_G.Ignore) do
         if Instance:IsDescendantOf(v) then
@@ -87,8 +89,9 @@ local function DescendantOfIgnore(Instance)
     end
     return false
 end
+
 local function CheckIfBad(Instance)
-    if not Instance:IsDescendantOf(Players) and (_G.Settings.Players["Ignore Others"] and not PartOfCharacter(Instance) or not _G.Settings.Players["Ignore Others"]) and (_G.Settings.Players["Ignore Me"] and ME.Character and not Instance:IsDescendantOf(ME.Character) or not _G.Settings.Players["Ignore Me"]) and (_G.Settings.Players["Ignore Tools"] and not Instance:IsA("BackpackItem") and not Instance:FindFirstAncestorWhichIsA("BackpackItem") or not _G.Settings.Players["Ignore Tools"])--[[not PartOfCharacter(Instance)]] and (_G.Ignore and not table.find(_G.Ignore, Instance) and not DescendantOfIgnore(Instance) or (not _G.Ignore or type(_G.Ignore) ~= "table" or #_G.Ignore <= 0)) then
+    if not Instance:IsDescendantOf(Players) and (_G.Settings.Players["Ignore Others"] and not PartOfCharacter(Instance) or not _G.Settings.Players["Ignore Others"]) and (_G.Settings.Players["Ignore Me"] and ME.Character and not Instance:IsDescendantOf(ME.Character) or not _G.Settings.Players["Ignore Me"]) and (_G.Settings.Players["Ignore Tools"] and not Instance:IsA("BackpackItem") and not Instance:FindFirstAncestorWhichIsA("BackpackItem") or not _G.Settings.Players["Ignore Tools"]) then
         if Instance:IsA("DataModelMesh") then
             if _G.Settings.Meshes.NoMesh and Instance:IsA("SpecialMesh") then
                 Instance.MeshId = ""
@@ -186,183 +189,27 @@ local function CheckIfBad(Instance)
             if _G.Settings["No MeshParts"] or (_G.Settings.Other and _G.Settings.Other["No MeshParts"]) or (_G.Settings.MeshParts and _G.Settings.MeshParts.Destroy) then
                 Instance:Destroy()
             end
-        end
-    end
-end
-if _G.SendNotifications then
-    StarterGui:SetCore("SendNotification", {
-        Title = "Loading Fps Booster...",
-        Text = "🐵Affeboy Universal🐒",
-        Duration = 5,
-    })
-end
-coroutine.wrap(pcall)(function()
-    if (_G.Settings["Low Water Graphics"] or (_G.Settings.Other and _G.Settings.Other["Low Water Graphics"])) then
-        if not workspace:FindFirstChildOfClass("Terrain") then
-            repeat
-                task.wait()
-            until workspace:FindFirstChildOfClass("Terrain")
-        end
-        workspace:FindFirstChildOfClass("Terrain").WaterWaveSize = 0
-        workspace:FindFirstChildOfClass("Terrain").WaterWaveSpeed = 0
-        workspace:FindFirstChildOfClass("Terrain").WaterReflectance = 0
-        workspace:FindFirstChildOfClass("Terrain").WaterTransparency = 0
-        if sethiddenproperty then
-            sethiddenproperty(workspace:FindFirstChildOfClass("Terrain"), "Decoration", false)
-        else
-            StarterGui:SetCore("SendNotification", {
-                Title = "Exploit Error",
-                Text = "Your exploit does not support sethiddenproperty, please use a different exploit.",
-                Duration = 5,
-            })
-            warn("Your exploit does not support sethiddenproperty, please use a different exploit.")
-        end
-        if _G.SendNotifications then
-            StarterGui:SetCore("SendNotification", {
-                Title = "Low Water Graphics",
-                Text = "🐵Affeboy Universal🐒",
-                Duration = 5,
-            })
-        end
-        if _G.ConsoleLogs then
-            warn("Low Water Graphics Enabled")
-        end
-    end
-end)
-coroutine.wrap(pcall)(function()
-    if _G.Settings["No Shadows"] or (_G.Settings.Other and _G.Settings.Other["No Shadows"]) then
-        Lighting.GlobalShadows = false
-        Lighting.FogEnd = 9e9
-        Lighting.ShadowSoftness = 0
-        if sethiddenproperty then
-            sethiddenproperty(Lighting, "Technology", 2)
-        else
-            StarterGui:SetCore("SendNotification", {
-                Title = "Exploit Error",
-                Text = "Your exploit does not support sethiddenproperty, please use a different exploit.",
-                Duration = 5,
-            })
-            warn("Your exploit does not support sethiddenproperty, please use a different exploit.")
-        end
-        if _G.SendNotifications then
-            StarterGui:SetCore("SendNotification", {
-                Title = "No Shadows Enabled",
-                Text = "🐵Affeboy Universal🐒",
-                Duration = 5,
-            })
-        end
-        if _G.ConsoleLogs then
-            warn("No Shadows Enabled")
-        end
-    end
-end)
-coroutine.wrap(pcall)(function()
-    if _G.Settings["Low Rendering"] or (_G.Settings.Other and _G.Settings.Other["Low Rendering"]) then
-        settings().Rendering.QualityLevel = 1
-        settings().Rendering.MeshPartDetailLevel = Enum.MeshPartDetailLevel.Level04
-        if _G.SendNotifications then
-            StarterGui:SetCore("SendNotification", {
-                Title = "Low Rendering Enabled",
-                Text = "🐵Affeboy Universal🐒",
-                Duration = 5,
-            })
-        end
-        if _G.ConsoleLogs then
-            warn("Low Rendering Enabled")
-        end
-    end
-end)
-coroutine.wrap(pcall)(function()
-    if _G.Settings["Reset Materials"] or (_G.Settings.Other and _G.Settings.Other["Reset Materials"]) then
-        for i, v in pairs(MaterialService:GetChildren()) do
-            v:Destroy()
-        end
-        MaterialService.Use2022Materials = false
-        if _G.SendNotifications then
-            StarterGui:SetCore("SendNotification", {
-                Title = "Reset Materials",
-                Text = "🐵Affeboy Universal🐒",
-                Duration = 5,
-            })
-        end
-        if _G.ConsoleLogs then
-            warn("Reset Materials Enabled")
-        end
-    end
-end)
-coroutine.wrap(pcall)(function()
-    if _G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"]) then
-        if setfpscap then
-            if type(_G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"])) == "string" or type(_G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"])) == "number" then
-                setfpscap(tonumber(_G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"])))
-                if _G.SendNotifications then
-                    StarterGui:SetCore("SendNotification", {
-                        Title = "Fps Capped to" .. tostring(_G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"])),
-                        Text = "🐵Affeboy Universal🐒"
-                        Duration = 5,
-                    })
-                end
-                if _G.ConsoleLogs then
-                    warn("FPS Capped to " .. tostring(_G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"])))
-                end
-            elseif _G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"]) == true then
-                setfpscap(1e6)
-                if _G.SendNotifications then
-                    StarterGui:SetCore("SendNotification", {
-                        Title = "Fps Uncapped",
-                        Text = "🐵Affeboy Universal🐒",
-                        Duration = 5,
-                        Button1 = "Okay"
-                    })
-                end
-                if _G.ConsoleLogs then
-                    warn("FPS Uncapped")
-                end
+        elseif Instance:IsA("Sound") then
+            if _G.Settings["Low Quality Sounds"] or (_G.Settings.Other and _G.Settings.Other["Low Quality Sounds"]) then
+                Instance:Destroy()
             end
-        else
-            StarterGui:SetCore("SendNotification", {
-                Title = "Fps Cap Failed",
-                Text = "🐵Affeboy Universal🐒",
-                Duration = 5,
-            })
-            warn("FPS Cap Failed")
         end
     end
-end)
-game.DescendantAdded:Connect(function(value)
-    wait(_G.LoadedWait or 1)
-    CheckIfBad(value)
-end)
-local Descendants = game:GetDescendants()
-local StartNumber = _G.WaitPerAmount or 500
-local WaitNumber = _G.WaitPerAmount or 500
+end
+
+for i, v in pairs(workspace:GetDescendants()) do
+    CheckIfBad(v)
+end
+workspace.DescendantAdded:Connect(CheckIfBad)
+
 if _G.SendNotifications then
-    StarterGui:SetCore("SendNotification", {
-        Title = "Fps Booster Loading",
-        Text = "Checking " .. #Descendants .. " Instances...",
-        Duration = 5,
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Fps Boost Loaded",
+        Text = "🐵Affeboy Universal🐒",
+        Duration = 5
     })
 end
+
 if _G.ConsoleLogs then
-    warn("Checking " .. #Descendants .. " Instances...")
+    print("Game optimization started: visual effects disabled.")
 end
-for i, v in pairs(Descendants) do
-    CheckIfBad(v)
-    if i == WaitNumber then
-        task.wait()
-        if _G.ConsoleLogs then
-            print("Loaded " .. i .. "/" .. #Descendants)
-        end
-        WaitNumber = WaitNumber + StartNumber
-    end
-end
-StarterGui:SetCore("SendNotification", {
-    Title = "Fps Boosster Loaded",
-    Text = "🐵Affeboy Universal🐒",
-    Duration = 5,
-})
-warn("FPS Booster Loaded!")
---game.DescendantAdded:Connect(CheckIfBad)
---[[game.DescendantAdded:Connect(function(value)
-    CheckIfBad(value)
-end)]]

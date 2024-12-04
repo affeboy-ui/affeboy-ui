@@ -1,3 +1,4 @@
+
 --[[ Controls:
 Reinject the script to toggle the aimlock script on or off.
 Execute Lua "G.aimlock = true" to explicitly turn the aimlock script on
@@ -35,7 +36,7 @@ local highlight = nil -- Stores the highlight instance
 -- Variable to store the target player's username
 local TargetPlayerName = "" 
 
--- Function to find the closest player's head based on the selected target's username
+-- Function to find the selected target player's head
 local function FindTargetPlayerHead()
     local closestPlayer = nil
     local closestDistance = math.huge
@@ -43,6 +44,7 @@ local function FindTargetPlayerHead()
     -- Get the mouse location on screen for more accurate locking
     local mousePosition = Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y)
 
+    -- Check for the specific player inputted by the user
     for _, player in pairs(Players:GetPlayers()) do
         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
             -- If the target player's name matches the selected name
@@ -136,14 +138,14 @@ local Input = Aimlock:CreateInput({
       if TargetPlayerName == "" then
          Rayfield:Notify({
             Title = "Targeting Disabled",
-            Content = "No specific target set. Aimlock will work on all players.",
+            Content = "🐵Affeboy Universal🐒",
             Duration = 5,
             Image = "info-circle",
          })
       else
          Rayfield:Notify({
             Title = "Target Set",
-            Content = "Targeting player: " .. TargetPlayerName,
+            Content = "🐵Affeboy Universal🐒Targeting player: " .. TargetPlayerName,
             Duration = 5,
             Image = "user",
          })
@@ -155,8 +157,8 @@ local Input = Aimlock:CreateInput({
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if gameProcessed then return end
     if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.C then
-        -- Only allow locking/unlocking if aimlock is ON
-        if _G.aimlock then
+        -- Only allow locking/unlocking if aimlock is ON and a target player is set
+        if _G.aimlock and TargetPlayerName ~= "" then
             cursorLocked = not cursorLocked -- Toggle locking on/off
 
             if cursorLocked then
@@ -170,7 +172,7 @@ end)
 
 -- Update loop to follow the cursor's target player when locked
 RunService.RenderStepped:Connect(function()
-    if cursorLocked and _G.aimlock then
+    if cursorLocked and _G.aimlock and TargetPlayerName ~= "" then
         if targetHead then
             -- Keep the camera locked on the target player's head
             Camera.CFrame = CFrame.new(Camera.CFrame.Position, targetHead.Position)

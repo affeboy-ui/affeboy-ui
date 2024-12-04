@@ -4,29 +4,24 @@ if _G.Ragelock == nil then
 end
 
 -- If aimlock is already on, turn it off; if it's off, turn it on
+local previousState = _G.Ragelock
 _G.Ragelock = not _G.Ragelock
 
 -- Notification logic and hotkey logic: Send notifications only when the state changes
-if _G.Ragelock then
-    -- Notify when Ragelock is enabled (only if it's the first time enabled)
-    if not _G.Ragelock then
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "Ragelock Loaded",
-            Text = "🐵Affeboy Universal🐒",
-            Duration = 5
-        })
-        _G.Ragelock = true
-    end
-else
-    -- Notify when Ragelock is disabled (only if it's the first time disabled)
-    if _G.Ragelock then
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "Ragelock Unloaded",
-            Text = "🐵Affeboy Universal🐒",
-            Duration = 5
-        })
-        _G.Ragelock = false
-    end
+if _G.Ragelock and not previousState then
+    -- Notify when Ragelock is enabled
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Ragelock Loaded",
+        Text = "🐵Affeboy Universal🐒",
+        Duration = 5
+    })
+elseif not _G.Ragelock and previousState then
+    -- Notify when Ragelock is disabled
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Ragelock Unloaded",
+        Text = "🐵Affeboy Universal🐒",
+        Duration = 5
+    })
 end
 
 --!strict

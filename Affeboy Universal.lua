@@ -117,9 +117,16 @@ local Button = Movement:CreateButton({
 local Misc = Window:CreateTab("Misc", 127639951772664)
 local MiscSection = Misc:CreateSection("Features", "cog")
 
-local button = Misc:CreateButton({
+local Button = Misc:CreateButton({
     Name = "Chat Spy Toggle",
     Callback = function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/refs/heads/main/Chat%20Spy.lua"))()
+        end,
+})
+
+local Button = Misc:CreateButton({
+    Name = "Fps Booster",
+    Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/refs/heads/main/Roblox%20Fps%20Boost.lua"))()
         end,
 })

@@ -1,18 +1,34 @@
 -- Ensure aimlock state is toggled correctly on each execution
-if _G Ragelock == nil then
+if _G.Ragelock == nil then
     _G.Ragelock = false  -- Default value if not previously set
 end
 
 -- If aimlock is already on, turn it off; if it's off, turn it on
 _G.Ragelock = not _G.Ragelock
 
-if _G.aimlock then
-    -- Notify readiness
-    game.StarterGui:SetCore("SendNotification", {Title="Ragelock Loaded"; Text="🐵Affeboy Universal🐒"; Duration=5;} )
+-- Notification logic and hotkey logic: Send notifications only when the state changes
+if _G.Ragelock then
+    -- Notify when Ragelock is enabled (only if it's the first time enabled)
+    if not _G.aimlock then
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Ragelock Loaded",
+            Text = "🐵Affeboy Universal🐒",
+            Duration = 5
+        })
+        _G.aimlock = true
+    end
 else
-    -- Notify Ragelock is turned off
-    game.StarterGui:SetCore("SendNotification", {Title="Ragelock Unloaded"; Text="🐵Affeboy Universal🐒"; Duration=5;} )
+    -- Notify when Ragelock is disabled (only if it's the first time disabled)
+    if _G.aimlock then
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Ragelock Unloaded",
+            Text = "🐵Affeboy Universal🐒",
+            Duration = 5
+        })
+        _G.aimlock = false
+    end
 end
+
 --!strict
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
@@ -27,7 +43,7 @@ local isCameraLocked = false
 local currentTarget
 local currentHighlight
 
--- Function to create a red transparent outline around a target
+-- Function to create a red transparent outline around a target with a white outline
 local function createHighlight(target)
     if currentHighlight then
         currentHighlight:Destroy()
@@ -35,9 +51,10 @@ local function createHighlight(target)
 
     local highlight = Instance.new("Highlight")
     highlight.Adornee = target
-    highlight.FillColor = Color3.new(1, 0, 0)
-    highlight.FillTransparency = 0.8
-    highlight.OutlineTransparency = 1
+    highlight.FillColor = Color3.new(255, 0, 0)  -- Red fill color
+    highlight.FillTransparency = 0.7
+    highlight.OutlineTransparency = 0.1  -- Transparent outline
+    highlight.OutlineColor = Color3.new(255, 255, 255)  -- White outline
     highlight.Parent = HighlightService
     currentHighlight = highlight
 end
@@ -66,9 +83,17 @@ local function isValidTarget(player)
     local direction = (head.Position - origin).Unit
     local raycastResult = workspace:Raycast(origin, direction * 500, RaycastParams.new())
 
+    -- Check if the target is within 50 studs for lock through walls
+    local distance = (head.Position - origin).Magnitude
     if raycastResult and raycastResult.Instance:IsDescendantOf(player.Character) then
-        local distance = (head.Position - origin).Magnitude
-        return distance <= 500
+        if distance <= 50 then
+            return true  -- Lock through walls if within 50 studs
+        end
+    end
+
+    -- Check if the target is visible and within 500 studs
+    if distance <= 500 and raycastResult and raycastResult.Instance:IsDescendantOf(player.Character) then
+        return true  -- Lock if the player is visible and within 500 studs
     end
 
     return false
@@ -123,22 +148,25 @@ local function updateCamera()
     end
 end
 
--- Toggle camera lock when "Z" is pressed
+-- Toggle camera lock when "Z" is pressed (only if aimlock is enabled)
 UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
     if gameProcessedEvent then return end
 
-    if input.KeyCode == Enum.KeyCode.Z then
-        isCameraLocked = not isCameraLocked
+    -- Only respond to the hotkey if aimlock is enabled
+    if _G.Ragelock then
+        if input.KeyCode == Enum.KeyCode.Z then
+            isCameraLocked = not isCameraLocked
 
-        if isCameraLocked then
-            currentTarget = getClosestPlayerToMouse()
-            if currentTarget and currentTarget.Character then
-                createHighlight(currentTarget.Character)
+            if isCameraLocked then
+                currentTarget = getClosestPlayerToMouse()
+                if currentTarget and currentTarget.Character then
+                    createHighlight(currentTarget.Character)
+                end
+            else
+                removeHighlight()
+                Camera.CameraType = Enum.CameraType.Custom
+                currentTarget = nil
             end
-        else
-            removeHighlight()
-            Camera.CameraType = Enum.CameraType.Custom
-            currentTarget = nil
         end
     end
 end)

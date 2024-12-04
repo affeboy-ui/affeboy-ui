@@ -34,8 +34,8 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
-local Aimlock = Window:CreateTab("Aimlock", 136009625510534) -- Title, Image
-local AimlockSection = Aimlock:CreateSection("Settings", "cog")
+local Aim = Window:CreateTab("Aim", 136009625510534) -- Title, Image
+local AimSection = Aim:CreateSection("Locks", "cog")
 
 Rayfield:Notify({
    Title = "Affeboy UI Loaded",
@@ -44,14 +44,20 @@ Rayfield:Notify({
    Image = "code-xml",
 })
 
-local Button = Aimlock:CreateButton({
+local Button = Aim:CreateButton({
    Name = "Aimlock Toggle                                 Keybind C",
    Callback = function()
-      -- Load the Aimlock script
-      local aimlockScript = loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/main/Roblox%20Aimlock.lua"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/main/Roblox%20Aimlock.lua"))()
    end,
 })
 
+local Button = Aim:CreateButton({
+    Name = "Ragelock Toggle                               Keybind Z",
+    Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/refs/heads/main/Roblox%20Rage%20Aimlock.lua"))()
+    end,                        
+})
+    
 local Visuals = Window:CreateTab("Visuals", 124686202083835) -- Title, Image
 local VisualsSection = Visuals:CreateSection("Features", "cog")
 

@@ -3,7 +3,7 @@ local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
 -- Set your target coordinates here (feel free to modify these)
-local targetPosition = Vector3.new(-637.8507690429688, 21.751373291015625, -140.5386505126953) -- Change this to your desired coordinates
+local targetPosition = Vector3.new(-642.2507690429688, 21.751373291015625, -119.2386505126953) -- Change this to your desired coordinates
 
 -- Function to show a notification using SetCore
 local function showNotification(message)

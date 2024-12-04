@@ -2,7 +2,7 @@
 Reinject the script to toggle the aimlock script on or off.
 Execute Lua "G.aimlock = true" to explicitly turn the aimlock script on
 Execute Lua "G.aimlock = false" to explicitly turn the aimlock script off
-]]
+]]--
 
 -- Ensure aimlock state is toggled correctly on each execution
 if _G.aimlock == nil then
@@ -31,6 +31,9 @@ local cursorLocked = false
 local targetHead = nil -- Stores the current target head
 local targetPlayer = nil -- Stores the player locked onto
 local highlight = nil -- Stores the highlight instance
+
+-- Targeting logic variables
+local customTargetName = ""  -- Stores the name of the player to lock onto
 
 -- Function to check if the player has 1% health or less
 local function IsPlayerHealthCritical(player)
@@ -129,7 +132,18 @@ end
 
 -- Function to lock the cursor to the nearest player's head
 local function LockCursorToHead()
-    targetHead, targetPlayer = FindClosestPlayerHead()
+    -- If customTargetName is set, find that player, otherwise lock on the closest player
+    if customTargetName ~= "" then
+        targetPlayer = Players:FindFirstChild(customTargetName)
+        if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("Head") then
+            targetHead = targetPlayer.Character.Head
+        else
+            targetHead = nil
+        end
+    else
+        -- Default to closest player
+        targetHead, targetPlayer = FindClosestPlayerHead()
+    end
 
     if targetHead then
         -- Add red highlight to the locked player
@@ -160,7 +174,7 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
             cursorLocked = not cursorLocked -- Toggle locking on/off
 
             if cursorLocked then
-                LockCursorToHead() -- Lock onto the nearest player
+                LockCursorToHead() -- Lock onto the nearest player or custom target
             else
                 UnlockCursor() -- Unlock cursor when released
             end
@@ -182,6 +196,11 @@ RunService.RenderStepped:Connect(function()
         end
     end
 end)
+
+-- Function to set a custom target player by name
+function SetCustomTarget(targetName)
+    customTargetName = targetName
+end
 
 -- Disable all actions related to aimlock when aimlock is OFF
 if not _G.aimlock then

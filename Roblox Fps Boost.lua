@@ -281,7 +281,7 @@ coroutine.wrap(pcall)(function()
         if _G.SendNotifications then
             StarterGui:SetCore("SendNotification", {
                 Title = "Reset Materials",
-                Text = "🐵Affeboy Universal🐒,
+                Text = "🐵Affeboy Universal🐒",
                 Duration = 5,
             })
         end
@@ -297,10 +297,9 @@ coroutine.wrap(pcall)(function()
                 setfpscap(tonumber(_G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"])))
                 if _G.SendNotifications then
                     StarterGui:SetCore("SendNotification", {
-                        Title = "discord.gg/rips",
-                        Text = "FPS Capped to " .. tostring(_G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"])),
+                        Title = "Fps Capped to" .. tostring(_G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"])),
+                        Text = "🐵Affeboy Universal🐒"
                         Duration = 5,
-                        Button1 = "Okay"
                     })
                 end
                 if _G.ConsoleLogs then

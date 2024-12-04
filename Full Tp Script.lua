@@ -1,8 +1,9 @@
+-- Ensure these are accessible globally
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
--- Set your target coordinates here (in the correct order)
+-- Define target coordinates
 local Armor = Vector3.new(-934.23, -25.15, 570.97) -- Armor
 local Chicken = Vector3.new(300.70, 52.87, -627.18) -- Chicken
 local Revolver = Vector3.new(-642.25, 21.75, -119.24) -- Revolver
@@ -18,9 +19,9 @@ local TacticalShotgunAmmo = Vector3.new(493.06, 48.16, -619.97) -- Tactical Shot
 local function showNotification(message)
     local success, errorMsg = pcall(function()
         game.StarterGui:SetCore("SendNotification", {
-            Title = "Teleporting";
-            Text = message;
-            Duration = 5; -- Display the notification for 5 seconds
+            Title = "Teleporting",
+            Text = message,
+            Duration = 5, -- Display the notification for 5 seconds
         })
     end)
 
@@ -31,14 +32,18 @@ end
 
 -- Function to teleport to the target position
 local function teleportToTarget(targetPosition)
-    if humanoidRootPart then
+    -- Ensure character and HumanoidRootPart are valid
+    if humanoidRootPart and humanoidRootPart.Parent then
         showNotification("🐵Affeboy Universal🐒")
-        character:SetPrimaryPartCFrame(CFrame.new(targetPosition))
+        character:SetPrimaryPartCFrame(CFrame.new(targetPosition)) -- Move the character to the target position
+    else
+        warn("HumanoidRootPart is unavailable for teleportation.")
     end
 end
 
 -- Teleport function based on selected dropdown option
 local function handleTeleportSelection(option)
+    -- Handle each option and teleport accordingly
     if option == "Armor" then
         teleportToTarget(Armor)
     elseif option == "Chicken" then
@@ -63,3 +68,8 @@ local function handleTeleportSelection(option)
         warn("Invalid option selected.")
     end
 end
+
+-- Make sure the functions are accessible globally
+_G.handleTeleportSelection = handleTeleportSelection
+_G.teleportToTarget = teleportToTarget
+_G.showNotification = showNotification

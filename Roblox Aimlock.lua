@@ -83,7 +83,7 @@ local function FindClosestPlayerHead()
                 local hitPart, hitPosition = Workspace:FindPartOnRay(ray, LocalPlayer.Character)
 
                 -- Allow locking through walls for players within 100 studs
-                if playerDistance <= 50 or (not hitPart or hitPart.Parent == character) then
+                if playerDistance <= 100 or (not hitPart or hitPart.Parent == character) then
                     -- Only consider players with more than 15% health for locking
                     if not IsPlayerHealthLow(player) then
                         if distance < closestDistance then

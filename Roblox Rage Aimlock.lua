@@ -1,3 +1,18 @@
+-- Ensure aimlock state is toggled correctly on each execution
+if _G Ragelock == nil then
+    _G.Ragelock = false  -- Default value if not previously set
+end
+
+-- If aimlock is already on, turn it off; if it's off, turn it on
+_G.Ragelock = not _G.Ragelock
+
+if _G.aimlock then
+    -- Notify readiness
+    game.StarterGui:SetCore("SendNotification", {Title="Ragelock Loaded"; Text="🐵Affeboy Universal🐒"; Duration=5;} )
+else
+    -- Notify Ragelock is turned off
+    game.StarterGui:SetCore("SendNotification", {Title="Ragelock Unloaded"; Text="🐵Affeboy Universal🐒"; Duration=5;} )
+end
 --!strict
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")

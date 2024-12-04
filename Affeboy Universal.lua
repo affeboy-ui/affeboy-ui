@@ -90,26 +90,36 @@ local Button4 = Visuals:CreateButton({
    end,
 })
 
-local Misc = Window:CreateTab("Misc", 95872766689378) -- Title, Image
-local MiscSection = Misc:CreateSection("Features", "cog")
+local Movement = Window:CreateTab("Movement", 95872766689378) -- Title, Image
+local MovementSection = Movement:CreateSection("Features", "cog")
 
-local Button = Misc:CreateButton({
+local Button = Movement:CreateButton({
     Name = "Speed Toggle                                 Keybind V",
     Callback = function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/refs/heads/main/Speed%20Toggle.lua"))()
         end,
 })
 
-local Button = Misc:CreateButton({
+local Button = Movement:CreateButton({
     Name = "Flight Toggle                                  Keybind B",
     Callback = function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/refs/heads/main/Fly%20Toggle.lua"))()
         end,
 })
 
-local Button = Misc:CreateButton({
+local Button = Movement:CreateButton({
     Name = "NoClip Toggle                                Keybind N",
     Callback = function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/refs/heads/main/Roblox%20Noclip.lua"))()
+        end,
+})
+
+local Misc = Window:CreateTab("Misc", 127639951772664)
+local MiscSection = Misc:CreateSection("Features", "cog")
+
+local button = Misc:CreateButton({
+    Name = "Chat Spy Toggle",
+    Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/refs/heads/main/Chat%20Spy.lua"))()
         end,
 })

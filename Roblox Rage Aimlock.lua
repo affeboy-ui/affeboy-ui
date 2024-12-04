@@ -9,23 +9,23 @@ _G.Ragelock = not _G.Ragelock
 -- Notification logic and hotkey logic: Send notifications only when the state changes
 if _G.Ragelock then
     -- Notify when Ragelock is enabled (only if it's the first time enabled)
-    if not _G.aimlock then
+    if not _G.Ragelock then
         game.StarterGui:SetCore("SendNotification", {
             Title = "Ragelock Loaded",
             Text = "🐵Affeboy Universal🐒",
             Duration = 5
         })
-        _G.aimlock = true
+        _G.Ragelock = true
     end
 else
     -- Notify when Ragelock is disabled (only if it's the first time disabled)
-    if _G.aimlock then
+    if _G.Ragelock then
         game.StarterGui:SetCore("SendNotification", {
             Title = "Ragelock Unloaded",
             Text = "🐵Affeboy Universal🐒",
             Duration = 5
         })
-        _G.aimlock = false
+        _G.Ragelock = false
     end
 end
 

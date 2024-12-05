@@ -18,9 +18,9 @@ end
 
 -- Notify when the script is ready
 if _G.healthESP then
-    Notify("Health ESP Enabled", "🐵Affeboy Universal🐒")
+    Notify("Health ESP Enabled", "🎭  Hexploit 🎭")
 else
-    Notify("Health ESP Disabled", "🐵Affeboy Universal🐒")
+    Notify("Health ESP Disabled", "🎭  Hexploit 🎭")
 end
 
 -- Function to create a health bar for a player

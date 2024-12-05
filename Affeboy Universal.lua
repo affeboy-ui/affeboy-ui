@@ -130,3 +130,10 @@ local Button = Misc:CreateButton({
             loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/refs/heads/main/Roblox%20Fps%20Boost.lua"))()
         end,
 })
+
+local Button = Misc:CreateButton({
+    Name = "Da Hood Staff Checker",
+    Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/affeboy-ui/affeboy-ui/refs/heads/main/Da%20Hood%20Staff%20Checker.lua"))()
+        end,
+})

@@ -45,7 +45,7 @@ Config.enabled = _G.chatSpyEnabled
 
 -- Notify the user about the current Chat Spy status
 if Config.enabled then
-    StarterGui:SetCore("SendNotification", {Title = "Chat Spy Loaded", Text = "Chat Spy is now ENABLED", Duration = 5})
+    StarterGui:SetCore("SendNotification", {Title = "Chat Spy Loaded", Text = "🎭  Hexploit 🎭", Duration = 5})
 end
 
 -- Function to handle chat messages

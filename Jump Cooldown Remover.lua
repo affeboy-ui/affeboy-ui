@@ -19,8 +19,8 @@ if _G.noJumpCooldownEnabled then
 
     -- Send the notification
     game.StarterGui:SetCore("SendNotification", {
-        Title = "No Jump Cooldown",
-        Text = "No Jump Cooldown Enabled",
+        Title = "Jump Cooldown Removed",
+        Text = "🎭  Hexploit 🎭",
         Duration = 5
     })
 else
@@ -35,8 +35,8 @@ else
 
     -- Send the notification
     game.StarterGui:SetCore("SendNotification", {
-        Title = "No Jump Cooldown",
-        Text = "No Jump Cooldown Disabled",
+        Title = "Jump Cooldown Enabled",
+        Text = "🎭  Hexploit 🎭",
         Duration = 5
     })
 end

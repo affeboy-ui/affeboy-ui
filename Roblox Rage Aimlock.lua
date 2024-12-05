@@ -12,14 +12,14 @@ if _G.Ragelock and not previousState then
     -- Notify when Ragelock is enabled
     game.StarterGui:SetCore("SendNotification", {
         Title = "Ragelock Loaded",
-        Text = "🐵Affeboy Universal🐒",
+        Text = "🎭  Hexploit 🎭",
         Duration = 5
     })
 elseif not _G.Ragelock and previousState then
     -- Notify when Ragelock is disabled
     game.StarterGui:SetCore("SendNotification", {
         Title = "Ragelock Unloaded",
-        Text = "🐵Affeboy Universal🐒",
+        Text = "🎭  Hexploit 🎭",
         Duration = 5
     })
 end

@@ -99,14 +99,14 @@ _G.FullBrightEnabled = not _G.FullBrightEnabled
 -- Send the correct notification
 if _G.FullBrightEnabled then
     game.StarterGui:SetCore("SendNotification", {
-        Title = "Lighting Settings";
-        Text = "Full Bright Enabled";
+        Title = "Fullbright Enabled";
+        Text = "🎭 Hexploit 🎭";
         Duration = 5;
     })
 else
     game.StarterGui:SetCore("SendNotification", {
-        Title = "Lighting Settings";
-        Text = "Full Bright Disabled";
+        Title = "Fullbright Disabled";
+        Text = "🎭 Hexploit 🎭";
         Duration = 5;
     })
 end

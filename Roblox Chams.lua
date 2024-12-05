@@ -62,9 +62,9 @@ end
 
 -- Notify when the script is ready
 if _G.chams then
-    Notify("Chams Enabled", "🐵Affeboy Universal🐒")
+    Notify("Chams Enabled", "🎭  Hexploit 🎭")
 else
-    Notify("Chams Disabled", "🐵Affeboy Universal🐒")
+    Notify("Chams Disabled", "🎭  Hexploit 🎭")
 end
 
 -- Handle player join and leave to ensure chams are updated

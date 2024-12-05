@@ -1,10 +1,10 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "🐒Affeboy Universal🐵",
+   Name = "🎭  Hexploit 🎭",
    Icon = "shield-check",
-   LoadingTitle = "Affeboy Universal",
-   LoadingSubtitle = "by Affeboy",
+   LoadingTitle = "Hexploit",
+   LoadingSubtitle = "by Affeboy And Voik",
    Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
 
    DisableRayfieldPrompts = false,
@@ -13,7 +13,7 @@ local Window = Rayfield:CreateWindow({
    ConfigurationSaving = {
       Enabled = true,
       FolderName = nil, -- Create a custom folder for your hub/game
-      FileName = "Affeboy UI Config"
+      FileName = "Hexploit Config"
    },
 
    Discord = {
@@ -24,13 +24,13 @@ local Window = Rayfield:CreateWindow({
 
    KeySystem = false, -- Set this to true to use our key system
    KeySettings = {
-      Title = "Affeboy UI Key",
+      Title = "Hexploit Key",
       Subtitle = "Key System",
       Note = "My Name", -- Use this to tell the user how to get a key
-      FileName = "Affeboy UI Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      FileName = "Hexploit Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
       SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
-      Key = {"affeboy"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+      Key = {"Hexploit"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
    }
 })
 
@@ -38,8 +38,8 @@ local Aim = Window:CreateTab("Aim", 136009625510534) -- Title, Image
 local AimSection = Aim:CreateSection("Locks", "cog")
 
 Rayfield:Notify({
-   Title = "Affeboy UI Loaded",
-   Content = "I Hate Niggers",
+   Title = "Hexploit Loaded",
+   Content = "Please Report Bugs",
    Duration = 6.5,
    Image = "code-xml",
 })

@@ -19,6 +19,7 @@ local Players = game:GetService("Players")
 -- Configuration
 local staffKeywords = {"ADMIN", "Owner", "Devs", "Contributed", "Monetization", "Moderators"} -- List of roles/keywords to check
 local staffGroupId = 4698921 -- Replace with the actual group ID (if applicable)
+local minStaffRank = 2 -- Rank 2 and above are considered staff
 
 -- State
 local connections = {} -- Holds event connections
@@ -36,9 +37,9 @@ end
 local function checkForStaff(player)
     if not _G.staffCheckerEnabled then return end -- Stop if the checker is disabled
 
-    -- Check for roles/keywords in the player's username
+    -- Check for roles/keywords in the player's username (exact match)
     for _, keyword in ipairs(staffKeywords) do
-        if string.find(string.lower(player.Name), string.lower(keyword)) then
+        if string.match(string.lower(player.Name), "^" .. string.lower(keyword) .. "$") then
             local message = player.Name .. " is a staff member!"
             print("[STAFF DETECTED] Username match: " .. message)
             sendNotification("Staff Checker", message)
@@ -46,17 +47,21 @@ local function checkForStaff(player)
         end
     end
 
-    -- Check if the player is in the staff group and matches the rank
+    -- Check if the player is in the staff group and has a rank greater than or equal to the min staff rank
     local success, isInGroup = pcall(function()
         return player:IsInGroup(staffGroupId)
     end)
     
     if success and isInGroup then
         local rank = player:GetRankInGroup(staffGroupId)
-        local message = player.Name .. " is a staff member! Rank: " .. rank
-        print("[STAFF DETECTED] Group match: " .. message)
-        sendNotification("Staff Checker", message)
-        return true
+        
+        -- Check if the player has a staff rank (minStaffRank or higher)
+        if rank >= minStaffRank then
+            local message = player.Name .. " is a staff member! Rank: " .. player:GetRoleInGroup(staffGroupId)
+            print("[STAFF DETECTED] Group match: " .. message)
+            sendNotification("Staff Checker", message)
+            return true
+        end
     end
 
     return false

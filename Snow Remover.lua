@@ -18,7 +18,7 @@ if _G.snowRemoved == nil then
     
     -- Notify that the snow remover has been enabled
     game.StarterGui:SetCore("SendNotification", {
-        Title = "Snow Remover Enabled";
+        Title = "Snow Disabled";
         Text = "🎭  Hexploit 🎭";
         Duration = 5;
     })

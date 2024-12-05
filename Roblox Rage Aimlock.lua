@@ -69,7 +69,7 @@ local function isValidTarget(player)
     end
 
     local humanoid = player.Character.Humanoid
-    if humanoid.Health / humanoid.MaxHealth < 0.1 then
+    if humanoid.Health / humanoid.MaxHealth < 0.15 then
         return false
     end
 

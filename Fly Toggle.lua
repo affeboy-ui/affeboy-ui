@@ -32,7 +32,7 @@ if _G.flyScriptInitialized then
     -- Send notification for unloading
     game.StarterGui:SetCore("SendNotification", {
         Title = "Fly Mode Unloaded";
-        Text = "🐵Affeboy Universal🐒";
+        Text = "🎭  Hexploit 🎭";
         Duration = 5;
     })
 
@@ -54,7 +54,7 @@ else
     -- Send notification for loading
     game.StarterGui:SetCore("SendNotification", {
         Title = "Fly Mode Loaded";
-        Text = "🐵Affeboy Universal🐒";
+        Text = "🎭  Hexploit 🎭";
         Duration = 5;
     })
 
@@ -92,7 +92,7 @@ else
             -- Send notification when toggling fly mode
             game.StarterGui:SetCore("SendNotification", {
                 Title = "Cframe Flight " .. (flags["rage_cframe_fly_enabled"] and "Enabled" or "Disabled");
-                Text = "🐵Affeboy Universal🐒";
+                Text = "🎭  Hexploit 🎭";
                 Duration = 5;
             })
         end

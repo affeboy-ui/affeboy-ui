@@ -19,7 +19,7 @@ if _G.speedBoostInitialized then
     _G.speedBoostInitialized = false
     game.StarterGui:SetCore("SendNotification", {
         Title = "Cframe Speed Unloaded";
-        Text = "🐵Affeboy Universal🐒";
+        Text = "🎭  Hexploit 🎭";
         Duration = 5;
     })
 
@@ -40,7 +40,7 @@ else
     _G.speedBoostInitialized = true
     game.StarterGui:SetCore("SendNotification", {
         Title = "Cframe Speed Loaded";
-        Text = "🐵Affeboy Universal🐒";
+        Text = "🎭  Hexploit 🎭";
         Duration = 5;
     })
 
@@ -68,7 +68,7 @@ else
                 if _G.speedBoostActive then
                     game.StarterGui:SetCore("SendNotification", {
                         Title = "Cframe Speed On";
-                        Text = "🐵Affeboy Universal🐒";
+                        Text = "🎭  Hexploit 🎭";
                         Duration = 5;
                     })
 
@@ -82,7 +82,7 @@ else
                 else
                     game.StarterGui:SetCore("SendNotification", {
                         Title = "Cframe Speed Off";
-                        Text = "🐵Affeboy Universal🐒";
+                        Text = "🎭  Hexploit 🎭";
                         Duration = 5;
                     })
 

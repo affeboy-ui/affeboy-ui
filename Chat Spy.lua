@@ -12,10 +12,6 @@ end
 -- Mark the script as executed to prevent further notifications
 _G.chatSpyExecuted = true
 
-print("-- Chat Spy Executed --")
-print("Chat Spy is now ENABLED. Type 'spy' to toggle it on or off.")
-print("https://github.com/dehoisted/Chat-Spy")
-
 -- Config
 Config = {
     enabled = false,  -- Start with disabled by default
@@ -66,7 +62,7 @@ local function onChatted(p, msg)
             conn:Disconnect()
             if hidden and Config.enabled then
                 if Config.public then
-                    saymsg:FireServer((Config.publicItalics and "/me " or '') .. "{SPY} [" .. p.Name .. "]: " .. msg, "All")
+                    saymsg:FireServer((Config.publicItalics and "/me " or '') .. "{Hexploit} [" .. p.Name .. "]: " .. msg, "All")
                 else
                     PrivateProperties.Text = "{SPY} [" .. p.Name .. "]: " .. msg
                     StarterGui:SetCore("ChatMakeSystemMessage", PrivateProperties)

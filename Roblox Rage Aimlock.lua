@@ -134,7 +134,7 @@ local function updateCamera()
 
         -- Continuously check if the current target is still valid
         local humanoid = currentTarget.Character:FindFirstChild("Humanoid")
-        if not humanoid or humanoid.Health / humanoid.MaxHealth < 0.1 then
+        if not humanoid or humanoid.Health / humanoid.MaxHealth < 0.01 then
             switchToNextClosestPlayer()
         end
     else

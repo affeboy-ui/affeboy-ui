@@ -87,10 +87,10 @@ end
 -- Toggle the checker on script execution
 if _G.staffCheckerEnabled then
     -- Notify readiness when loaded
-    game.StarterGui:SetCore("SendNotification", {Title="Staff Checker Loaded"; Text="🐵Affeboy Universal🐒"; Duration=5;})
+    game.StarterGui:SetCore("SendNotification", {Title="Staff Checker Loaded"; Text="🎭  Hexploit 🎭"; Duration=5;})
     enableStaffChecker()
 else
     -- Notify when unloaded
-    game.StarterGui:SetCore("SendNotification", {Title="Staff Checker Unloaded"; Text="🐵Affeboy Universal🐒"; Duration=5;})
+    game.StarterGui:SetCore("SendNotification", {Title="Staff Checker Unloaded"; Text="🎭  Hexploit 🎭"; Duration=5;})
     disableStaffChecker()
 end

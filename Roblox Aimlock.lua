@@ -17,7 +17,7 @@ if _G.aimlock then
     game.StarterGui:SetCore("SendNotification", {Title="Aimlock Loaded"; Text="🎭  Hexploit 🎭"; Duration=5;} )
 else
     -- Notify aimlock is turned off
-    game.StarterGui:SetCore("SendNotification", {Title="Aimlock Unloaded"; Text="🐵Affeboy Universal🐒"; Duration=5;} )
+    game.StarterGui:SetCore("SendNotification", {Title="Aimlock Unloaded"; Text="🎭  Hexploit 🎭"; Duration=5;} )
 end
 
 local Players = game:GetService("Players")

@@ -23,7 +23,7 @@ local function toggleNoClip(state)
         -- Notify no-clip enabled
         game.StarterGui:SetCore("SendNotification", {
             Title = "NoClip Enabled";
-            Text = "🐵Affeboy Universal🐒";
+            Text = "🎭  Hexploit 🎭";
             Duration = 5;
         })
     else
@@ -37,7 +37,7 @@ local function toggleNoClip(state)
         -- Notify no-clip disabled
         game.StarterGui:SetCore("SendNotification", {
             Title = "NoClip Disabled";
-            Text = "🐵Affeboy Universal🐒";
+            Text = "🎭  Hexploit 🎭";
             Duration = 5;
         })
     end
@@ -62,7 +62,7 @@ if not _G.noClipLoaded then
     -- Notify no-clip loaded
     game.StarterGui:SetCore("SendNotification", {
         Title = "NoClip Loaded";
-        Text = "🐵Affeboy Universal🐒";
+        Text = "🎭  Hexploit 🎭";
         Duration = 5;
     })
 
@@ -91,7 +91,7 @@ else
     -- Notify no-clip unloaded
     game.StarterGui:SetCore("SendNotification", {
         Title = "NoClip Unloaded";
-        Text = "🐵Affeboy Universal🐒";
+        Text = "🎭  Hexploit 🎭";
         Duration = 5;
     })
 end

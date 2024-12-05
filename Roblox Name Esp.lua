@@ -18,9 +18,9 @@ end
 
 -- Notify when the script is ready
 if _G.nameTagESP then
-    Notify("Name Tag ESP Enabled", "🐵Affeboy Universal🐒")
+    Notify("Name Tag ESP Enabled", "🎭  Hexploit 🎭")
 else
-    Notify("Name Tag ESP Disabled", "🐵Affeboy Universal🐒")
+    Notify("Name Tag ESP Disabled", "🎭  Hexploit 🎭")
 end
 
 -- Function to create a name tag for a player

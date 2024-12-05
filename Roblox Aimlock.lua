@@ -14,7 +14,7 @@ _G.aimlock = not _G.aimlock
 
 if _G.aimlock then
     -- Notify readiness
-    game.StarterGui:SetCore("SendNotification", {Title="Aimlock Loaded"; Text="🎭 Hexploit 🎭"; Duration=5;} )
+    game.StarterGui:SetCore("SendNotification", {Title="Aimlock Loaded"; Text="🎭  Hexploit  🎭"; Duration=5;} )
 else
     -- Notify aimlock is turned off
     game.StarterGui:SetCore("SendNotification", {Title="Aimlock Unloaded"; Text="🐵Affeboy Universal🐒"; Duration=5;} )

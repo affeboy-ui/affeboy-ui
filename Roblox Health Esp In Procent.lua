@@ -18,9 +18,9 @@ end
 
 -- Notify when the health text ESP is toggled
 if _G.healthTextESP then
-    Notify("Health Text ESP Enabled", "🐵Affeboy Universal🐒")
+    Notify("Health Text ESP Enabled", "🎭  Hexploit 🎭")
 else
-    Notify("Health Text ESP Disabled", "🐵Affeboy Universal🐒")
+    Notify("Health Text ESP Disabled", "🎭  Hexploit 🎭")
 end
 
 -- Function to create a health text for a player (showing health %)

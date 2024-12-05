@@ -205,7 +205,7 @@ workspace.DescendantAdded:Connect(CheckIfBad)
 if _G.SendNotifications then
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Fps Boost Loaded",
-        Text = "🐵Affeboy Universal🐒",
+        Text = "🎭  Hexploit 🎭",
         Duration = 5
     })
 end

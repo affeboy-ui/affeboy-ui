@@ -65,7 +65,7 @@ if _G.autoTPReady == nil then
                 playerRoot.CFrame = CFrame.new(targetPosition)
 
                 -- Notify about teleportation
-                showNotification("Tp Stomp Teleporting" .. targetPlayer.Name.. "🎭  Hexploit 🎭", 3)
+                showNotification("Tp Stomp Teleporting", "🎭  Hexploit 🎭", 3)
 
                 -- Wait 0.10 seconds before stomping
                 wait(0.10)
@@ -74,7 +74,7 @@ if _G.autoTPReady == nil then
                 game.ReplicatedStorage.MainEvent:FireServer("Stomp")
 
                 -- Notify about the stomp
-                showNotification("Tp Stomped" .. targetPlayer.Name.. "🎭  Hexploit 🎭", 3)
+                showNotification("Stomped", "🎭  Hexploit 🎭", 3)
             end
         else
             showNotification("No Target Found", "🎭  Hexploit 🎭", 3)

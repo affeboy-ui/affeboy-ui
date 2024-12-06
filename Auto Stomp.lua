@@ -21,8 +21,8 @@ if _G.autoStompReady == nil then
 
     -- Displays readiness notification
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Auto Stomp Script";
-        Text = "Auto Stomp Loaded. Press 'F' to start or stop.";
+        Title = "Auto Stomp Loaded";
+        Text = "🎭  Hexploit 🎭";
         Duration = 5;
     })
 
@@ -46,7 +46,7 @@ if _G.autoStompReady == nil then
         if _G.autoStomp and input.KeyCode == Enum.KeyCode.F then
             isLooping = not isLooping
             if isLooping then
-                showNotification("Auto Stomp", "Auto Stomp Started", 3)
+                showNotification("Auto Stomp Enabled", "🎭  Hexploit 🎭", 3)
                 task.spawn(function()
                     while isLooping do
                         if player.Character and player.Character:FindFirstChild("Humanoid") then
@@ -56,7 +56,7 @@ if _G.autoStompReady == nil then
                     end
                 end)
             else
-                showNotification("Auto Stomp", "Auto Stomp Stopped", 3)
+                showNotification("Auto Stomp Disabled", "🎭  Hexploit 🎭", 3)
             end
         end
     end
@@ -76,8 +76,8 @@ else
 
     -- Displays unloading notification
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Auto Stomp Script";
-        Text = "Auto Stomp Unloaded. Reinjection required to reload.";
+        Title = "Auto Stomp Unloaded";
+        Text = "🎭  Hexploit 🎭";
         Duration = 5;
     })
 end

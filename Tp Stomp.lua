@@ -7,8 +7,8 @@ if _G.autoTPReady == nil then
 
     -- Displays readiness notification
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Auto TP Script";
-        Text = "Auto TP Loaded. Press 'F' to teleport and stomp.";
+        Title = "Tp Stomp Loaded";
+        Text = "🎭  Hexploit 🎭";
         Duration = 5;
     })
 
@@ -65,7 +65,7 @@ if _G.autoTPReady == nil then
                 playerRoot.CFrame = CFrame.new(targetPosition)
 
                 -- Notify about teleportation
-                showNotification("Auto TP", "Teleported above " .. targetPlayer.Name, 3)
+                showNotification("Tp Stomp Teleporting" .. targetPlayer.Name "🎭  Hexploit 🎭", 3)
 
                 -- Wait 0.10 seconds before stomping
                 wait(0.10)
@@ -74,10 +74,10 @@ if _G.autoTPReady == nil then
                 game.ReplicatedStorage.MainEvent:FireServer("Stomp")
 
                 -- Notify about the stomp
-                showNotification("Auto TP", "Stomped " .. targetPlayer.Name, 3)
+                showNotification("Tp Stomped" .. targetPlayer.Name "🎭  Hexploit 🎭", 3)
             end
         else
-            showNotification("Auto TP", "No valid target found.", 3)
+            showNotification("No Target Found", "🎭  Hexploit 🎭.", 3)
         end
     end
 
@@ -104,8 +104,8 @@ else
 
     -- Displays unloading notification
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Auto TP Script";
-        Text = "Auto TP Unloaded. Reinjection required to reload.";
+        Title = "Tp Stomp Unloaded";
+        Text = "🎭  Hexploit 🎭";
         Duration = 5;
     })
 end

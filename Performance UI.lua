@@ -94,14 +94,14 @@ end
 
 -- Handle the different UI states (load/unload the UI)
 if _G.UIState == 1 then
-    showNotification("Performance UI Loaded", "The Performance UI has been successfully loaded.")
+    showNotification("Performance UI Loaded", "🎭  Hexploit 🎭")
     _G.UIState = 2 -- Move to the next state (unload)
 elseif _G.UIState == 2 then
-    showNotification("Performance UI Unloaded", "The Performance UI has been hidden.")
+    showNotification("Performance UI Unloaded", "🎭  Hexploit 🎭")
     ScreenGui.Enabled = false  -- Disable the UI (make it invisible)
     _G.UIState = 3 -- Move to the next state (reload)
 elseif _G.UIState == 3 then
-    showNotification("Performance UI Loaded", "The Performance UI has been successfully loaded.")
+    showNotification("Performance UI Loaded", "🎭  Hexploit 🎭")
     ScreenGui.Enabled = true  -- Enable the UI (make it visible)
     _G.UIState = 2 -- Move to the next state (unload)
 end

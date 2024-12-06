@@ -47,14 +47,55 @@ else
     -- Variables
     local player = game.Players.LocalPlayer
     local runService = game:GetService("RunService")
-    local character = player.Character or player.CharacterAdded:Wait()
-    local humanoid = character:WaitForChild("Humanoid")
-    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-    local UserInputService = game:GetService("UserInputService")
     local targetSpeed = 70 -- Target speed equivalent to WalkSpeed = 16 * 5
+    local UserInputService = game:GetService("UserInputService")
 
     -- Speed boost toggle (on "V" key press)
     _G.speedBoostActive = false
+    local character, humanoid, humanoidRootPart
+
+    -- Function to activate speed boost
+    local function activateSpeedBoost()
+        if _G.speedBoostActive and humanoidRootPart and humanoid then
+            _G.renderSteppedConnection = runService.RenderStepped:Connect(function(deltaTime)
+                if _G.speedBoostActive and humanoidRootPart and humanoid then
+                    local moveDirection = humanoid.MoveDirection
+                    humanoidRootPart.CFrame = humanoidRootPart.CFrame + (moveDirection * targetSpeed * deltaTime)
+                end
+            end)
+        end
+    end
+
+    -- Function to stop speed boost
+    local function stopSpeedBoost()
+        if _G.renderSteppedConnection then
+            _G.renderSteppedConnection:Disconnect()
+            _G.renderSteppedConnection = nil
+        end
+    end
+
+    -- Function to handle character respawn
+    local function onCharacterAdded(newCharacter)
+        -- Disconnect the previous RenderStepped connection if it exists
+        stopSpeedBoost()
+
+        character = newCharacter
+        humanoid = character:WaitForChild("Humanoid")
+        humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+        -- Re-enable the speed boost if it was active before respawn
+        if _G.speedBoostActive then
+            activateSpeedBoost()
+        end
+    end
+
+    -- Connect the character respawn event
+    player.CharacterAdded:Connect(onCharacterAdded)
+
+    -- Initial character setup
+    if player.Character then
+        onCharacterAdded(player.Character)
+    end
 
     -- Hotkey listener (V key press)
     _G.toggleListener = UserInputService.InputBegan:Connect(function(input, gameProcessed)
@@ -73,12 +114,7 @@ else
                     })
 
                     -- Activate speed boost
-                    _G.renderSteppedConnection = runService.RenderStepped:Connect(function(deltaTime)
-                        if _G.speedBoostActive and humanoidRootPart and humanoid then
-                            local moveDirection = humanoid.MoveDirection
-                            humanoidRootPart.CFrame = humanoidRootPart.CFrame + (moveDirection * targetSpeed * deltaTime)
-                        end
-                    end)
+                    activateSpeedBoost()
                 else
                     game.StarterGui:SetCore("SendNotification", {
                         Title = "Cframe Speed Off";
@@ -87,10 +123,7 @@ else
                     })
 
                     -- Stop speed boost
-                    if _G.renderSteppedConnection then
-                        _G.renderSteppedConnection:Disconnect()
-                        _G.renderSteppedConnection = nil
-                    end
+                    stopSpeedBoost()
                 end
             end
         end

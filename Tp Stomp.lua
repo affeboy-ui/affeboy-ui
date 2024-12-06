@@ -77,7 +77,7 @@ if _G.autoTPReady == nil then
                 showNotification("Tp Stomped" .. targetPlayer.Name.. "🎭  Hexploit 🎭", 3)
             end
         else
-            showNotification("No Target Found", "🎭  Hexploit 🎭.", 3)
+            showNotification("No Target Found", "🎭  Hexploit 🎭", 3)
         end
     end
 

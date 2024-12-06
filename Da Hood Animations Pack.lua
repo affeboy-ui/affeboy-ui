@@ -1,6 +1,6 @@
 repeat
     wait()
-until game:IsLoaded() and game.Players.LocalPlayer.Character:FindFirstChild("FULLY_LOADED_CHAR") and game.Players.LocalPlayer.PlayerGui.MainScreenGui:FindFirstChild("AnimationPack")
+until game:IsLoaded() and game.Players.LocalPlayer.Character:FindFirstChild("FULLY_LOADED_CHAR") and game.Players.LocalPlayer.PlayerGui.MainScreenGui:FindFirstChild("AnimationPack") and game.Players.LocalPlayer.PlayerGui.MainScreenGui:FindFirstChild("AnimationPlusPack")
 
 if game.ReplicatedStorage.ClientAnimations:FindFirstChild("Lean") then
     game.ReplicatedStorage.ClientAnimations.Lean:Destroy()
@@ -28,6 +28,30 @@ end
 
 if game.ReplicatedStorage.ClientAnimations:FindFirstChild("Praying") then
     game.ReplicatedStorage.ClientAnimations.Praying:Destroy()
+end
+
+if game.ReplicatedStorage.ClientAnimations:FindFirstChild("TheDefault") then
+    game.ReplicatedStorage.ClientAnimations.TheDefault:Destroy()
+end
+
+if game.ReplicatedStorage.ClientAnimations:FindFirstChild("Sturdy") then
+    game.ReplicatedStorage.ClientAnimations.Sturdy:Destroy()
+end
+
+if game.ReplicatedStorage.ClientAnimations:FindFirstChild("Rossy") then
+    game.ReplicatedStorage.ClientAnimations.Rossy:Destroy()
+end
+
+if game.ReplicatedStorage.ClientAnimations:FindFirstChild("Griddy") then
+    game.ReplicatedStorage.ClientAnimations.Griddy:Destroy()
+end
+
+if game.ReplicatedStorage.ClientAnimations:FindFirstChild("TPose") then
+    game.ReplicatedStorage.ClientAnimations.TPose:Destroy()
+end
+
+if game.ReplicatedStorage.ClientAnimations:FindFirstChild("SpeedBlitz") then
+    game.ReplicatedStorage.ClientAnimations.SpeedBlitz:Destroy()
 end
 
 local Animations = game.ReplicatedStorage.ClientAnimations
@@ -60,15 +84,42 @@ local PrayingAnimation = Instance.new("Animation", Animations)
 PrayingAnimation.Name = "Praying"
 PrayingAnimation.AnimationId = "rbxassetid://3487719500"
 
+local TheDefaultAnimation = Instance.new("Animation", Animations)
+TheDefaultAnimation.Name = "TheDefault"
+TheDefaultAnimation.AnimationId = "rbxassetid://11710529975" -- FIX THIS
+
+local SturdyAnimation = Instance.new("Animation", Animations)
+SturdyAnimation.Name = "Sturdy"
+SturdyAnimation.AnimationId = "rbxassetid://11710524717"
+
+local RossyAnimation = Instance.new("Animation", Animations)
+RossyAnimation.Name = "Rossy"
+RossyAnimation.AnimationId = "rbxassetid://11710527244"
+
+local GriddyAnimation = Instance.new("Animation", Animations)
+GriddyAnimation.Name = "Griddy"
+GriddyAnimation.AnimationId = "rbxassetid://11710529220"
+
+local TPoseAnimation = Instance.new("Animation", Animations)
+TPoseAnimation.Name = "TPose"
+TPoseAnimation.AnimationId = "rbxassetid://11710524200"
+
+local SpeedBlitzAnimation = Instance.new("Animation", Animations)
+SpeedBlitzAnimation.Name = "SpeedBlitz"
+SpeedBlitzAnimation.AnimationId = "rbxassetid://11710541744"
+
 function AnimationPack(Character)
     Character:WaitForChild'Humanoid'
     repeat
         wait()
-    until game.Players.LocalPlayer.Character:FindFirstChild("FULLY_LOADED_CHAR") and game.Players.LocalPlayer.PlayerGui.MainScreenGui:FindFirstChild("AnimationPack")
+    until game.Players.LocalPlayer.Character:FindFirstChild("FULLY_LOADED_CHAR") and game.Players.LocalPlayer.PlayerGui.MainScreenGui:FindFirstChild("AnimationPack") and game.Players.LocalPlayer.PlayerGui.MainScreenGui:FindFirstChild("AnimationPlusPack")
 
     local AnimationPack = game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.AnimationPack
+    local AnimationPackPlus = game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.AnimationPlusPack
     local ScrollingFrame = AnimationPack.ScrollingFrame
     local CloseButton = AnimationPack.CloseButton
+    local ScrollingFramePlus = AnimationPackPlus.ScrollingFrame
+    local CloseButtonPlus = AnimationPackPlus.CloseButton
 
     local Lean = game:GetService("Players").LocalPlayer.Character.Humanoid:LoadAnimation(LeanAnimation)
 
@@ -84,9 +135,25 @@ function AnimationPack(Character)
 
     local Praying = game:GetService("Players").LocalPlayer.Character.Humanoid:LoadAnimation(PrayingAnimation)
 
+    local TheDefault = game:GetService("Players").LocalPlayer.Character.Humanoid:LoadAnimation(TheDefaultAnimation)
+
+    local Sturdy = game:GetService("Players").LocalPlayer.Character.Humanoid:LoadAnimation(SturdyAnimation)
+
+    local Rossy = game:GetService("Players").LocalPlayer.Character.Humanoid:LoadAnimation(RossyAnimation)
+
+    local Griddy = game:GetService("Players").LocalPlayer.Character.Humanoid:LoadAnimation(GriddyAnimation)
+
+    local TPose = game:GetService("Players").LocalPlayer.Character.Humanoid:LoadAnimation(TPoseAnimation)
+
+    local SpeedBlitz = game:GetService("Players").LocalPlayer.Character.Humanoid:LoadAnimation(SpeedBlitzAnimation)
+
     AnimationPack.Visible = true
 
-    AnimationPack.ScrollingFrame.UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    AnimationPackPlus.Visible = true
+
+    ScrollingFrame.UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+    ScrollingFramePlus.UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
     for i,v in pairs(ScrollingFrame:GetChildren()) do
         if v.Name == "TextButton" then
@@ -144,6 +211,54 @@ function AnimationPack(Character)
         end
     end
 
+    for i,v in pairs(ScrollingFramePlus:GetChildren()) do
+        if v.Name == "TextButton" then
+            if v.Text == "The Default" then
+                v.Name = "TheDefaultButton"
+            end
+        end
+    end
+
+    for i,v in pairs(ScrollingFramePlus:GetChildren()) do
+        if v.Name == "TextButton" then
+            if v.Text == "Sturdy" then
+                v.Name = "SturdyButton"
+            end
+        end
+    end
+
+    for i,v in pairs(ScrollingFramePlus:GetChildren()) do
+        if v.Name == "TextButton" then
+            if v.Text == "Rossy" then
+                v.Name = "RossyButton"
+            end
+        end
+    end
+
+    for i,v in pairs(ScrollingFramePlus:GetChildren()) do
+        if v.Name == "TextButton" then
+            if v.Text == "Griddy" then
+                v.Name = "GriddyButton"
+            end
+        end
+    end
+
+    for i,v in pairs(ScrollingFramePlus:GetChildren()) do
+        if v.Name == "TextButton" then
+            if v.Text == "T Pose" then
+                v.Name = "TPoseButton"
+            end
+        end
+    end
+
+    for i,v in pairs(ScrollingFramePlus:GetChildren()) do
+        if v.Name == "TextButton" then
+            if v.Text == "Speed Blitz" then
+                v.Name = "SpeedBlitzButton"
+            end
+        end
+    end
+
     function Stop()
         Lean:Stop()
         Lay:Stop()
@@ -152,7 +267,14 @@ function AnimationPack(Character)
         Greet:Stop()
         ChestPump:Stop()
         Praying:Stop()
+        TheDefault:Stop()
+        Sturdy:Stop()
+        Rossy:Stop()
+        Griddy:Stop()
+        TPose:Stop()
+        SpeedBlitz:Stop()
     end
+
 
     local LeanTextButton = ScrollingFrame.LeanButton
     local LayTextButton = ScrollingFrame.LayButton
@@ -161,19 +283,42 @@ function AnimationPack(Character)
     local GreetTextButton = ScrollingFrame.GreetButton
     local ChestPumpTextButton = ScrollingFrame.ChestPumpButton
     local PrayingTextButton = ScrollingFrame.PrayingButton
+    local TheDefaultTextButton = ScrollingFramePlus.TheDefaultButton
+    local SturdyTextButton = ScrollingFramePlus.SturdyButton
+    local RossyTextButton = ScrollingFramePlus.RossyButton
+    local GriddyTextButton = ScrollingFramePlus.GriddyButton
+    local TPoseTextButton = ScrollingFramePlus.TPoseButton
+    local SpeedBlitzTextButton = ScrollingFramePlus.SpeedBlitzButton
 
     AnimationPack.MouseButton1Click:Connect(function()
         if ScrollingFrame.Visible == false then
             ScrollingFrame.Visible = true
             CloseButton.Visible = true
+            AnimationPackPlus.Visible = false
+        end
+    end)
+    AnimationPackPlus.MouseButton1Click:Connect(function()
+        if ScrollingFramePlus.Visible == false then
+            ScrollingFramePlus.Visible = true
+            CloseButtonPlus.Visible = true
+            AnimationPack.Visible = false
         end
     end)
     CloseButton.MouseButton1Click:Connect(function()
         if ScrollingFrame.Visible == true then
             ScrollingFrame.Visible = false
             CloseButton.Visible = false
+            AnimationPackPlus.Visible = true
         end
     end)
+    CloseButtonPlus.MouseButton1Click:Connect(function()
+        if ScrollingFramePlus.Visible == true then
+            ScrollingFramePlus.Visible = false
+            CloseButtonPlus.Visible = false
+            AnimationPack.Visible = true
+        end
+    end)
+
     LeanTextButton.MouseButton1Click:Connect(function()
         Stop()
         Lean:Play()
@@ -201,6 +346,30 @@ function AnimationPack(Character)
     PrayingTextButton.MouseButton1Click:Connect(function()
         Stop()
         Praying:Play()
+    end)
+    TheDefaultTextButton.MouseButton1Click:Connect(function()
+        Stop()
+        TheDefault:Play()
+    end)
+    SturdyTextButton.MouseButton1Click:Connect(function()
+        Stop()
+        Sturdy:Play()
+    end)
+    RossyTextButton.MouseButton1Click:Connect(function()
+        Stop()
+        Rossy:Play()
+    end)
+    GriddyTextButton.MouseButton1Click:Connect(function()
+        Stop()
+        Griddy:Play()
+    end)
+    TPoseTextButton.MouseButton1Click:Connect(function()
+        Stop()
+        TPose:Play()
+    end)
+    SpeedBlitzTextButton.MouseButton1Click:Connect(function()
+        Stop()
+        SpeedBlitz:Play()
     end)
 
     game:GetService("Players").LocalPlayer.Character.Humanoid.Running:Connect(function()

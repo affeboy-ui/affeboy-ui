@@ -53,6 +53,17 @@ local function forceDisableNoClip()
     end
 end
 
+-- Function to handle respawn
+local function onCharacterAdded(newCharacter)
+    character = newCharacter
+    humanoid = character:WaitForChild("Humanoid")
+    
+    -- Re-enable no-clip if it was active before respawn
+    if noClip then
+        toggleNoClip(true)
+    end
+end
+
 -- Execution toggle logic
 if not _G.noClipLoaded then
     -- Script is being loaded
@@ -75,6 +86,9 @@ if not _G.noClipLoaded then
             toggleNoClip()
         end
     end)
+
+    -- Connect to the character respawn event
+    player.CharacterAdded:Connect(onCharacterAdded)
 else
     -- Script is being unloaded
     _G.noClipLoaded = false

@@ -71,7 +71,7 @@ local function teleportSequence()
 
                     -- Perform the teleport safely
                     hrp.CFrame = CFrame.new(safePos)
-                    wait(0.15) -- Wait 1 second between steps
+                    wait(0.1) -- Wait 1 second between steps
                 end
             end
         end

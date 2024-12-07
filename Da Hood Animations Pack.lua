@@ -2,6 +2,70 @@ repeat
     wait()
 until game:IsLoaded() and game.Players.LocalPlayer.Character:FindFirstChild("FULLY_LOADED_CHAR") and game.Players.LocalPlayer.PlayerGui.MainScreenGui:FindFirstChild("AnimationPack") and game.Players.LocalPlayer.PlayerGui.MainScreenGui:FindFirstChild("AnimationPlusPack")
 
+local uiLoaded = false  -- Track whether the UI has been loaded
+local notificationShown = false  -- Track if the notification has been shown
+
+-- Function to load UI
+function loadUI()
+    local player = game.Players.LocalPlayer
+    local animationPack = player.PlayerGui.MainScreenGui:FindFirstChild("AnimationPack")
+    local animationPlusPack = player.PlayerGui.MainScreenGui:FindFirstChild("AnimationPlusPack")
+
+    -- Only load UI if it's not already loaded
+    if animationPack and not animationPack.Visible then
+        animationPack.Visible = true  -- Show AnimationPack UI
+    end
+
+    if animationPlusPack and not animationPlusPack.Visible then
+        animationPlusPack.Visible = true  -- Show AnimationPlusPack UI
+    end
+
+    -- Set flag to indicate that UI is loaded
+    uiLoaded = true
+end
+
+-- Function to unload UI
+function unloadUI()
+    local player = game.Players.LocalPlayer
+    local animationPack = player.PlayerGui.MainScreenGui:FindFirstChild("AnimationPack")
+    local animationPlusPack = player.PlayerGui.MainScreenGui:FindFirstChild("AnimationPlusPack")
+
+    -- Only unload UI if it's currently loaded
+    if animationPack and animationPack.Visible then
+        animationPack.Visible = false  -- Hide AnimationPack UI
+    end
+
+    if animationPlusPack and animationPlusPack.Visible then
+        animationPlusPack.Visible = false  -- Hide AnimationPlusPack UI
+    end
+
+    -- Set flag to indicate that UI is unloaded
+    uiLoaded = false
+end
+
+-- Function to show notification only once
+local function showNotificationOnce()
+    if not notificationShown then
+        -- Show the notification
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Script Loaded";
+            Text = "🎭  Hexploit 🎭";
+            Duration = 5;
+        })
+        notificationShown = true  -- Mark that the notification has been shown
+    end
+end
+
+-- Trigger notification only once
+showNotificationOnce()
+
+-- Check if the UI is loaded or not and toggle appropriately
+if uiLoaded then
+    unloadUI()  -- Unload the UI if it's already loaded
+else
+    loadUI()  -- Load the UI if it's not loaded yet
+end
+
 if game.ReplicatedStorage.ClientAnimations:FindFirstChild("Lean") then
     game.ReplicatedStorage.ClientAnimations.Lean:Destroy()
 end

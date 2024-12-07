@@ -62,6 +62,37 @@ if not ScreenGui then
     Ping.TextColor3 = Color3.fromRGB(255, 255, 255)
     Ping.TextScaled = true
 
+    -- Add draggable functionality to the BackgroundFrame
+    local dragging = false
+    local dragStart = nil
+    local startPosition = nil
+
+    BackgroundFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPosition = BackgroundFrame.Position
+        end
+    end)
+
+    BackgroundFrame.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+
+    game:GetService("UserInputService").InputChanged:Connect(function(input, gameProcessed)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            local delta = input.Position - dragStart
+            BackgroundFrame.Position = UDim2.new(
+                startPosition.X.Scale, 
+                startPosition.X.Offset + delta.X,
+                startPosition.Y.Scale, 
+                startPosition.Y.Offset + delta.Y
+            )
+        end
+    end)
+
     -- Scripts for FPS and Ping
     local fpsScript = Instance.new('LocalScript', Fps)
     local pingScript = Instance.new('LocalScript', Ping)

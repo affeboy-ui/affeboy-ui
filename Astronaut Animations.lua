@@ -10,13 +10,13 @@ local function notifyUser(title, text)
 end
 
 local function applyAstronautAnimations(animate)
-    animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=891621366"
-    animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=891633237"
-    animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=891667138"
-    animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=891636393"
-    animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=891627522"
-    animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=891609353"
-    animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=891617961"
+    animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=1132473842"
+    animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=1132477671"
+    animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=1132510133"
+    animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=1132494274"
+    animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=1132489853"
+    animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=1132461372"
+    animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=1132469004"
 end
 
 local function resetToDefaultAnimations(animate)

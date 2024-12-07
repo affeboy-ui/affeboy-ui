@@ -25,21 +25,21 @@ local function resetToDefaultAnimations(animate)
     animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=2510202577"
     animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=2510198475"
     animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=2510197830"
-    animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=2510192778"
     animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=2510195892"
+    animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=2510192778"
 end
 
 local function toggleAnimations()
     local animate = character:WaitForChild("Animate")
     
     if _G.animAstronautActive then
-        print("Astronaut Animations Loaded")
+        print("Applying Astronaut animations...")
         applyAstronautAnimations(animate)
-        notifyUser("🎭  Hexploit 🎭")
+        notifyUser("Astronaut Animations Loaded", "🎭 Hexploit 🎭")
     else
-        print("Reset Animations To R15")
+        print("Resetting animations to default...")
         resetToDefaultAnimations(animate)
-        notifyUser("🎭  Hexploit 🎭")
+        notifyUser("Reset Animations To R15", "🎭  Hexploit 🎭")
     end
 end
 

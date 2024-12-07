@@ -1,46 +1,12 @@
--- Toggles the animation state on each execution
-_G.animAstronautActive = not _G.animAstronautActive
+_G.animAstronautActive= not _G.animAstronautActive;local v0=game.Players.LocalPlayer;local v1=v0.Character or v0.CharacterAdded:Wait() ;local function v2(v6,v7) game.StarterGui:SetCore("SendNotification",{Title=v6,Text=v7,Duration=1660 -(1594 + 61) });end local function v3(v8) local v9=1661 -(108 + 1553) ;while true do if (v9==(515 -(232 + 281))) then v8.jump.JumpAnim.AnimationId="http://www.roblox.com/asset/?id=891627522";v8.climb.ClimbAnim.AnimationId="http://www.roblox.com/asset/?id=891609353";v9=955 -(802 + 150) ;end if (v9==(0 -0)) then v8.idle.Animation1.AnimationId="http://www.roblox.com/asset/?id=891621366";v8.idle.Animation2.AnimationId="http://www.roblox.com/asset/?id=891633237";v9=1254 -(976 + 277) ;end if (v9==3) then v8.fall.FallAnim.AnimationId="http://www.roblox.com/asset/?id=891617961";break;end if (v9==(958 -(892 + 65))) then v8.walk.WalkAnim.AnimationId="http://www.roblox.com/asset/?id=891667138";v8.run.RunAnim.AnimationId="http://www.roblox.com/asset/?id=891636393";v9=4 -2 ;end end end local function v4(v10) local v11=0 -0 ;while true do if (v11==(5 -3)) then v10.jump.JumpAnim.AnimationId="http://www.roblox.com/asset/?id=2510197830";v10.fall.FallAnim.AnimationId="http://www.roblox.com/asset/?id=2510195892";v11=4 -1 ;end if (v11==(351 -(87 + 263))) then v10.walk.WalkAnim.AnimationId="http://www.roblox.com/asset/?id=2510202577";v10.run.RunAnim.AnimationId="http://www.roblox.com/asset/?id=2510198475";v11=182 -(67 + 113) ;end if (v11==(1190 -(1069 + 118))) then v10.climb.ClimbAnim.AnimationId="http://www.roblox.com/asset/?id=2510192778";break;end if (v11==(0 -0)) then v10.idle.Animation1.AnimationId="http://www.roblox.com/asset/?id=2510196951";v10.idle.Animation2.AnimationId="http://www.roblox.com/asset/?id=2510197257";v11=1 + 0 ;end end end local function v5() local v12=0 -0 ;local v13;while true do if (v12==0) then v13=v1:WaitForChild("Animate");if _G.animAstronautActive then print("Applying Astronaut animations...");v3(v13);v2("Astronaut Animations Loaded","🎭 Hexploit 🎭");else print("Resetting animations to default...");v4(v13);v2("Reset Animations To R15","🎭  Hexploit 🎭");end break;end end end v5();
+-- ⚠️ WARNING: integrity protected!
+--[[
+ .____                  ________ ___.    _____                           __                
+ |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
+ |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
+ |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
+ |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
+         \/          \/         \/    \/                \/     \/     \/                   
+          \_Welcome to LuaObfuscator.com   (Alpha 0.10.8) ~  Much Love, Ferib 
 
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
-local function notifyUser(title, text)
-    -- Sends a notification to the player
-    game.StarterGui:SetCore("SendNotification", {Title=title; Text=text; Duration=5;})
-end
-
-local function applyAstronautAnimations(animate)
-    animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=891621366"
-    animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=891633237"
-    animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=891667138"
-    animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=891636393"
-    animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=891627522"
-    animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=891609353"
-    animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=891617961"
-end
-
-local function resetToDefaultAnimations(animate)
-    animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=2510196951"
-    animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=2510197257"
-    animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=2510202577"
-    animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=2510198475"
-    animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=2510197830"
-    animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=2510195892"
-    animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=2510192778"
-end
-
-local function toggleAnimations()
-    local animate = character:WaitForChild("Animate")
-    
-    if _G.animAstronautActive then
-        print("Applying Astronaut animations...")
-        applyAstronautAnimations(animate)
-        notifyUser("Astronaut Animations Loaded", "🎭 Hexploit 🎭")
-    else
-        print("Resetting animations to default...")
-        resetToDefaultAnimations(animate)
-        notifyUser("Reset Animations To R15", "🎭  Hexploit 🎭")
-    end
-end
-
-toggleAnimations()
+]]--

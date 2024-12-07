@@ -1,51 +1,90 @@
 -- Roblox LocalScript for Applying Headless Effect (Client-Side)
 
 getgenv().Time = 0.5  -- Delay before applying the headless effect
-
--- Asset ID for the Headless effect (or transparent head overlay)
 getgenv().HeadlessOverlay = "rbxassetid://15093053680"  -- Provided headless ID
+getgenv().DefaultSmileID = "rbxassetid://144075659"  -- Default smile asset ID
 
--- Function to remove the face and apply the headless effect using an ImageLabel
+local function notifyUser(title, text)
+    -- Send notifications to the user
+    pcall(function()
+        game:GetService("StarterGui"):SetCore("SendNotification", {Title = title; Text = text; Duration = 5})
+    end)
+end
+
 local function applyHeadlessOverlay()
-    local character = game.Players.LocalPlayer.Character
+    local player = game.Players.LocalPlayer
+    local character = player.Character
     if not character then return end
-    
-    local head = character:FindFirstChild("Head")  -- Get the head part
-    if not head then return end  -- Ensure the head exists
 
-    -- Remove any face textures (there can be multiple faces on the head)
+    local head = character:FindFirstChild("Head")
+    if not head then return end
+
+    -- Remove any existing face textures
     for _, child in ipairs(head:GetChildren()) do
         if child:IsA("Decal") and child.Name == "face" then
-            child:Destroy()  -- Remove the face decal
+            child:Destroy()
         end
     end
 
-    -- Create an overlay (ImageLabel) for the head
+    -- Add the overlay to simulate the headless effect
     local overlay = Instance.new("ImageLabel")
-    overlay.Image = getgenv().HeadlessOverlay  -- Set the headless overlay image
-    overlay.Size = UDim2.new(1, 0, 1, 0)  -- Make it the same size as the head
-    overlay.Position = UDim2.new(0, 0, 0, 0)  -- Position it exactly over the head
-    overlay.BackgroundTransparency = 1  -- Make the background completely transparent
-    overlay.ZIndex = 10  -- Ensure it is rendered on top
+    overlay.Name = "HeadlessOverlay"
+    overlay.Image = getgenv().HeadlessOverlay
+    overlay.Size = UDim2.new(1, 0, 1, 0)
+    overlay.Position = UDim2.new(0, 0, 0, 0)
+    overlay.BackgroundTransparency = 1
+    overlay.ZIndex = 10
+    overlay.Parent = head
 
-    overlay.Parent = head  -- Attach the overlay to the head part
-
-    -- Make sure the head's visibility is hidden by the overlay
-    head.Transparency = 1  -- Hide the actual head part
+    head.Transparency = 1  -- Hide the actual head
 end
 
--- Function to apply the headless effect when the character is added
-local function onCharacterAdded(character)
-    wait(getgenv().Time)  -- Wait for a short time to ensure the character is fully loaded
+local function revertFaceToDefaultSmile()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    if not character then return end
 
-    -- Apply the headless effect (overlay the head)
-    applyHeadlessOverlay()
+    local head = character:FindFirstChild("Head")
+    if not head then return end
+
+    head.Transparency = 0 -- Restore head transparency
+
+    -- Remove any headless overlay
+    for _, child in ipairs(head:GetChildren()) do
+        if child:IsA("ImageLabel") then
+            child:Destroy()
+        end
+    end
+
+    -- Restore the default smile
+    local smileFace = head:FindFirstChild("face")
+    if not smileFace then
+        smileFace = Instance.new("Decal")
+        smileFace.Name = "face"
+        smileFace.Texture = getgenv().DefaultSmileID
+        smileFace.Parent = head
+    else
+        smileFace.Texture = getgenv().DefaultSmileID
+    end
 end
 
--- Listen for when the character is added
-game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
+local function toggleHeadlessEffect()
+    if _G.headlessEffectActive == nil then
+        _G.headlessEffectActive = false  -- Initialize state to false on first script execution
+    end
 
--- If the character is already present, apply the headless effect immediately
-if game.Players.LocalPlayer.Character then
-    onCharacterAdded(game.Players.LocalPlayer.Character)
+    if not _G.headlessEffectActive then
+        -- First execution: Enable the effect
+        applyHeadlessOverlay()
+        _G.headlessEffectActive = true
+        notifyUser(" Cs Headless Enabled", "🎭 Hexploit 🎭")
+    else
+        -- Second execution: Revert back to normal
+        revertFaceToDefaultSmile()
+        _G.headlessEffectActive = false
+        notifyUser("Cs Headless Disabled", "🎭 Hexploit 🎭")
+    end
 end
+
+-- Call the toggle on execution
+toggleHeadlessEffect()
